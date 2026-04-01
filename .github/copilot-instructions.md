@@ -21,6 +21,7 @@ This is a **Laravel 13** application using:
 
 ### PHP / Laravel
 - Follow **PSR-12** coding standards
+- Follow **SOLID principles**: single responsibility, open/closed, Liskov substitution, interface segregation, dependency inversion
 - Use **Laravel conventions**: Eloquent ORM, route model binding, form requests for validation
 - Place business logic in **Service classes** under `app/Services/`, not in controllers
 - Controllers should be thin — delegate to services
