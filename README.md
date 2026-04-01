@@ -65,18 +65,6 @@ The app will be available at **http://localhost:8000**
 
 ---
 
-## Default Credentials
-
-After the first run the database is seeded with these accounts:
-
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@example.com` | `password` |
-| Doctor | `doctor@example.com` | `password` |
-| Technician | `technician@example.com` | `password` |
-
----
-
 ## Useful Commands
 
 All commands run inside the app container:
@@ -136,16 +124,6 @@ The Docker Compose stack injects all required environment variables automaticall
 ```bash
 cp .env.example .env
 php artisan key:generate
-```
-
-Key variables:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_DATABASE=doctechproject
-DB_USERNAME=laravel
-DB_PASSWORD=secret
 ```
 
 ---
