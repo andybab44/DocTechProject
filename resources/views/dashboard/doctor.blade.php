@@ -22,4 +22,15 @@
         <p class="mt-1 text-2xl font-bold text-yellow-600">Active</p>
     </div>
 </div>
+
+<div class="mt-8 flex gap-4">
+    <a href="{{ route('work-jobs.calendar') }}"
+       class="inline-flex items-center px-5 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition shadow">
+        📅 View Calendar
+    </a>
+    <a href="{{ route('work-jobs.create') }}"
+       class="inline-flex items-center px-5 py-2.5 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition shadow">
+        + New Work Job
+    </a>
+</div>
 @endsection

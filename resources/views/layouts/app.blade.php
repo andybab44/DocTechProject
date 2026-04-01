@@ -11,7 +11,19 @@
     @auth
     <nav class="bg-white shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <span class="font-semibold text-gray-800">{{ config('app.name') }}</span>
+            <div class="flex items-center gap-6">
+                <span class="font-semibold text-gray-800">{{ config('app.name') }}</span>
+                <a href="{{ route('work-jobs.calendar') }}"
+                   class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('work-jobs.*') ? 'text-indigo-600 font-medium' : '' }}">
+                    Calendar
+                </a>
+                @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.users.index') }}"
+                   class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('admin.users.*') ? 'text-indigo-600 font-medium' : '' }}">
+                    Users
+                </a>
+                @endif
+            </div>
             <div class="flex items-center gap-4">
                 <span class="text-sm text-gray-600">
                     {{ auth()->user()->name }}

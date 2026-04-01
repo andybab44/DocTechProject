@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -49,5 +50,15 @@ class User extends Authenticatable
     public function isTechnician(): bool
     {
         return $this->hasRole(Role::Technician);
+    }
+
+    public function workJobsAsDoctor(): HasMany
+    {
+        return $this->hasMany(WorkJob::class, 'doctor_id');
+    }
+
+    public function workJobsAsTechnician(): HasMany
+    {
+        return $this->hasMany(WorkJob::class, 'technician_id');
     }
 }

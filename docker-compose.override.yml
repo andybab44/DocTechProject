@@ -1,0 +1,26 @@
+# docker-compose.override.yml
+#
+# This file is automatically merged with docker-compose.yml by Docker Compose
+# during local development. It is NOT used in production.
+#
+# It mounts the project source directly into the container so that PHP/Blade
+# changes are reflected instantly — no rebuild needed.
+# Run: docker compose up --build -d  (first time, to populate volumes)
+# Subsequent runs: docker compose up -d  (no rebuild needed)
+
+services:
+  app:
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+    volumes:
+      # Bind-mount only the source code directories we actually change
+      - ./app:/var/www/html/app
+      - ./config:/var/www/html/config
+      - ./database:/var/www/html/database
+      - ./resources:/var/www/html/resources
+      - ./routes:/var/www/html/routes
+      - ./tests:/var/www/html/tests
+      - ./bootstrap:/var/www/html/bootstrap
+      # Named volume for storage (persisted)
+      - storage_data:/var/www/html/storage
