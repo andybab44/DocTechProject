@@ -1,58 +1,159 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# DocTech Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel web application that connects **doctors** and **technicians** through a shared work-job calendar. Doctors request technical jobs, technicians manage and update their status — all within a role-based access system administered by admins.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Layer | Technology |
+|---|---|
+| Backend | PHP 8.4 · Laravel 13 |
+| Database | MySQL 8.4 |
+| Frontend | Blade · Tailwind CSS v4 · Vite |
+| Infrastructure | Docker · Docker Compose · Nginx · Supervisor |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Role-Based Access Control
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Three user roles with separate dashboards and permissions:
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Role | Capabilities |
+|---|---|
+| **Admin** | Manage users, view all work jobs on the calendar |
+| **Doctor** | Create & manage their own work job requests, assign to technicians |
+| **Technician** | View assigned work jobs, update job status |
 
-## Agentic Development
+### Work Jobs Calendar
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- Monthly calendar view, navigable by month
+- Colour-coded jobs by status: **Pending** (yellow), **In Progress** (blue), **Done** (green), **Cancelled** (red)
+- Click any day to pre-fill the date when creating a new job
+- Doctors can create, edit and delete their own jobs
+- Technicians can update the status of jobs assigned to them
+
+### User Management (Admin)
+
+- Paginated user list
+- Create new users with name, email, password and role assignment
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/)
+
+### Run the App
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clone the repository
+git clone https://github.com/andybab44/DocTechProject.git
+cd DocTechProject
 
-php artisan boost:install
+# 2. Build and start the containers
+docker compose up --build
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The app will be available at **http://localhost:8000**
 
-## Contributing
+> On first run the entrypoint script automatically runs `php artisan migrate` and seeds the database.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Default Credentials
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+After the first run the database is seeded with these accounts:
 
-## Security Vulnerabilities
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@example.com` | `password` |
+| Doctor | `doctor@example.com` | `password` |
+| Technician | `technician@example.com` | `password` |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Useful Commands
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+All commands run inside the app container:
+
+```bash
+# Run database migrations
+docker compose exec app php artisan migrate
+
+# Run tests
+docker compose exec app php artisan test
+
+# Open a Tinker shell
+docker compose exec app php artisan tinker
+
+# Rebuild after changing PHP dependencies or Docker config
+docker compose up --build
+```
+
+---
+
+## Project Structure
+
+```
+app/
+├── Enums/
+│   ├── Role.php              # Admin | Doctor | Technician
+│   └── WorkJobStatus.php     # Pending | InProgress | Done | Cancelled
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/UserController.php
+│   │   ├── Auth/LoginController.php
+│   │   ├── DashboardController.php
+│   │   └── WorkJobController.php
+│   ├── Middleware/
+│   │   └── RoleMiddleware.php
+│   └── Requests/
+│       ├── Admin/StoreUserRequest.php
+│       ├── StoreWorkJobRequest.php
+│       └── UpdateWorkJobRequest.php
+├── Models/
+│   ├── User.php
+│   └── WorkJob.php
+├── Policies/
+│   └── UserPolicy.php
+└── Services/
+    ├── AuthService.php
+    ├── UserService.php
+    └── WorkJobService.php
+```
+
+---
+
+## Environment
+
+The Docker Compose stack injects all required environment variables automatically. For local development outside Docker, copy `.env.example`:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Key variables:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_DATABASE=doctechproject
+DB_USERNAME=laravel
+DB_PASSWORD=secret
+```
+
+---
+
+## Branching Strategy
+
+| Branch | Purpose |
+|---|---|
+| `main` | Stable production-ready code |
+| `develop` | Integration branch — PRs merge here |
+| `feature/*` | Individual feature branches |
