@@ -1,0 +1,36 @@
+# Dependencies
+/vendor
+/node_modules
+
+# Git
+/.git
+/.gitignore
+/.gitattributes
+
+# Environment files (injected at runtime)
+/.env
+/.env.*
+!/.env.example
+
+# Local storage (mounted as volumes)
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/views
+/storage/logs
+/bootstrap/cache
+
+# SQLite (not used in Docker; MySQL is used instead)
+/database/database.sqlite
+
+# Tests
+/tests
+
+# IDE / editor
+/.idea
+/.vscode
+*.swp
+*.swo
+
+# Docker compose and root Dockerfile (not needed inside image)
+/docker-compose*.yml
+/Dockerfile
