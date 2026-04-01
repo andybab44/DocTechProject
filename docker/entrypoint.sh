@@ -9,7 +9,7 @@ fi
 cd /var/www/html
 
 # ── Generate app key if not set ────────────────────────────────────────────
-if grep -q "^APP_KEY=$" .env || grep -q "^APP_KEY=\"\"$" .env; then
+if [ -z "${APP_KEY}" ]; then
     php artisan key:generate --force
 fi
 
@@ -24,13 +24,22 @@ until php -r "
 done
 echo "MySQL is ready."
 
+# ── Clear any stale bootstrap cache (safe on every boot) ──────────────────
+php artisan package:discover --ansi 2>/dev/null || true
+
 # ── Run migrations ─────────────────────────────────────────────────────────
 php artisan migrate --force
 
-# ── Cache config/routes/views for performance ──────────────────────────────
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# ── Cache config/routes/views for performance (production only) ────────────
+if [ "${APP_ENV}" = "production" ]; then
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
+else
+    php artisan config:clear
+    php artisan route:clear
+    php artisan view:clear
+fi
 
 # ── Fix permissions ────────────────────────────────────────────────────────
 chown -R www-data:www-data storage bootstrap/cache
