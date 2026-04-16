@@ -28,6 +28,13 @@ class AuthService
         /** @var User $user */
         $user = Auth::user();
 
+        if (! $user->is_active) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => __('auth.deactivated'),
+            ]);
+        }
+
         return $user;
     }
 

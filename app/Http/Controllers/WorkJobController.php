@@ -57,10 +57,14 @@ class WorkJobController extends Controller
      */
     public function store(StoreWorkJobRequest $request): RedirectResponse
     {
-        $this->workJobService->create(auth()->user(), $request->validated());
+        $workJob = $this->workJobService->create(auth()->user(), $request->validated());
+
+        foreach ($request->file('files', []) as $file) {
+            $this->workJobService->addAttachment($workJob, $request->user(), $file);
+        }
 
         return redirect()
-            ->route('work-jobs.calendar')
+            ->route('work-jobs.show', $workJob)
             ->with('success', 'Work job created successfully.');
     }
 
@@ -71,7 +75,7 @@ class WorkJobController extends Controller
     {
         $this->authorizeView($workJob);
 
-        $workJob->load(['doctor', 'technician']);
+        $workJob->load(['doctor', 'technician', 'attachments.uploader']);
         $statuses = WorkJobStatus::cases();
 
         return view('work-jobs.show', compact('workJob', 'statuses'));

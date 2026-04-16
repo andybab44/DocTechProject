@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Add User')
+@section('title', __('app.users.add_title'))
 
 @section('content')
 <div class="mb-6 flex items-center gap-3">
     <a href="{{ route('admin.users.index') }}" class="text-gray-400 hover:text-gray-600 transition">
-        ← Back
+        {{ __('app.users.btn_back') }}
     </a>
-    <h1 class="text-2xl font-semibold text-gray-800">Add User</h1>
+    <h1 class="text-2xl font-semibold text-gray-800">{{ __('app.users.add_title') }}</h1>
 </div>
 
 <div class="max-w-lg bg-white rounded-lg shadow p-8">
@@ -16,7 +16,7 @@
 
         {{-- Name --}}
         <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.users.field_name') }}</label>
             <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
                 class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
                        focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
@@ -28,7 +28,7 @@
 
         {{-- Email --}}
         <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.users.field_email') }}</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}" required
                 class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
                        focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
@@ -40,12 +40,12 @@
 
         {{-- Role --}}
         <div class="mb-4">
-            <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <label for="role" class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.users.field_role') }}</label>
             <select id="role" name="role" required
                 class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white
                        focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
                        @error('role') border-red-400 @enderror">
-                <option value="" disabled selected>Select a role…</option>
+                <option value="" disabled selected>{{ __('app.users.select_role') }}</option>
                 @foreach (\App\Enums\Role::cases() as $role)
                     <option value="{{ $role->value }}" {{ old('role') === $role->value ? 'selected' : '' }}>
                         {{ $role->label() }}
@@ -59,7 +59,7 @@
 
         {{-- Password --}}
         <div class="mb-4">
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.users.field_password') }}</label>
             <input id="password" type="password" name="password" required autocomplete="new-password"
                 class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
                        focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
@@ -72,7 +72,7 @@
         {{-- Password Confirmation --}}
         <div class="mb-6">
             <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">
-                Confirm Password
+                {{ __('app.users.field_password_confirm') }}
             </label>
             <input id="password_confirmation" type="password" name="password_confirmation" required
                 class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm
@@ -83,11 +83,11 @@
             <button type="submit"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md
                        px-5 py-2 text-sm transition">
-                Create User
+                {{ __('app.users.btn_create') }}
             </button>
             <a href="{{ route('admin.users.index') }}"
                 class="text-sm text-gray-500 hover:text-gray-700 transition">
-                Cancel
+                {{ __('app.users.btn_cancel') }}
             </a>
         </div>
 

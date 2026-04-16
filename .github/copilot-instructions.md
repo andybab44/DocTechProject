@@ -45,6 +45,25 @@ This is a **Laravel 13** application using:
 - Use **PHPUnit** (already configured in `phpunit.xml`)
 - Run tests with: `docker compose exec app php artisan test`
 - Feature tests go in `tests/Feature/`, unit tests in `tests/Unit/`
+- **All new features must be accompanied by tests** — do not submit code without coverage
+- Write **Feature tests** for HTTP endpoints: assert correct status codes, redirects, and response content
+- Write **Unit tests** for Service classes and complex business logic in isolation
+- Use Laravel's `RefreshDatabase` trait to reset state between tests
+- Use **model factories** (`database/factories/`) to generate test data — never hardcode IDs or emails
+- Assert **authorization boundaries**: test that forbidden roles receive 403s and guests are redirected to login
+- Test **happy paths and failure paths** (e.g. validation errors, unauthorised access, not-found resources)
+- All tests must pass before opening a pull request: `docker compose exec app php artisan test`
+
+## Changelog
+- The project maintains a `CHANGELOG.md` in the root, following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format
+- **Every new feature, bug fix, or breaking change must be recorded in `CHANGELOG.md`** before opening a pull request
+- Add entries under the `## [Unreleased]` section using the appropriate subsection:
+  - `### Added` — new features
+  - `### Changed` — changes to existing behaviour
+  - `### Fixed` — bug fixes
+  - `### Removed` — removed features
+  - `### Security` — security fixes
+- When releasing, replace `[Unreleased]` with the version number and date (e.g. `[1.0.0] – 2026-05-01`)
 
 ## Environment
 - Copy `.env.example` to `.env` for local development outside Docker

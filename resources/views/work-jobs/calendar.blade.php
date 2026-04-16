@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Calendar – ' . $currentMonth->format('F Y'))
+@section('title', __('app.calendar.title', ['month' => $currentMonth->format('F Y')]))
 
 @section('content')
 <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <h1 class="text-2xl font-semibold text-gray-800">
-        Work Jobs — {{ $currentMonth->format('F Y') }}
+        {{ __('app.calendar.title', ['month' => $currentMonth->format('F Y')]) }}
     </h1>
     <div class="flex items-center gap-3">
         {{-- Month navigation --}}
@@ -20,7 +20,7 @@
         @if(auth()->user()->isDoctor() || auth()->user()->isAdmin())
         <a href="{{ route('work-jobs.create') }}"
            class="inline-flex items-center px-4 py-1.5 text-sm bg-indigo-600 text-white rounded-lg shadow-sm hover:bg-indigo-700 transition">
-            + New Job
+            {{ __('app.calendar.new_job') }}
         </a>
         @endif
     </div>
@@ -37,12 +37,16 @@
     $daysInMonth  = $currentMonth->daysInMonth;
     $firstDayOfWeek = $currentMonth->copy()->startOfMonth()->dayOfWeekIso; // 1=Mon … 7=Sun
     $today = \Illuminate\Support\Carbon::today();
+    $dayHeaders = [
+        __('app.calendar.mon'), __('app.calendar.tue'), __('app.calendar.wed'),
+        __('app.calendar.thu'), __('app.calendar.fri'), __('app.calendar.sat'), __('app.calendar.sun'),
+    ];
 @endphp
 
 <div class="bg-white rounded-xl shadow overflow-hidden border border-gray-200">
     {{-- Day-of-week headers --}}
     <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));" class="border-b border-gray-200 bg-gray-50">
-        @foreach(['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] as $d)
+        @foreach($dayHeaders as $d)
         <div class="py-2 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider border-r border-gray-200 last:border-r-0">{{ $d }}</div>
         @endforeach
     </div>
@@ -75,7 +79,7 @@
                 </span>
                 @if(auth()->user()->isDoctor() || auth()->user()->isAdmin())
                 <a href="{{ route('work-jobs.create', ['date' => $date->format('Y-m-d')]) }}"
-                   class="text-gray-300 hover:text-indigo-500 text-base leading-none transition" title="Add job">+</a>
+                   class="text-gray-300 hover:text-indigo-500 text-base leading-none transition" title="{{ __('app.calendar.add_job') }}">+</a>
                 @endif
             </div>
 

@@ -22,5 +22,6 @@ services:
       - ./routes:/var/www/html/routes
       - ./tests:/var/www/html/tests
       - ./bootstrap:/var/www/html/bootstrap
+      - ./lang:/var/www/html/lang
       # Named volume for storage (persisted)
       - storage_data:/var/www/html/storage

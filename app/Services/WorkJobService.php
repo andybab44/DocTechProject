@@ -6,8 +6,11 @@ use App\Enums\Role;
 use App\Enums\WorkJobStatus;
 use App\Models\User;
 use App\Models\WorkJob;
+use App\Models\WorkJobAttachment;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class WorkJobService
 {
@@ -91,5 +94,30 @@ class WorkJobService
     public function delete(WorkJob $workJob): void
     {
         $workJob->delete();
+    }
+
+    /**
+     * Store an uploaded file as an attachment on a work job.
+     */
+    public function addAttachment(WorkJob $workJob, User $uploader, UploadedFile $file): WorkJobAttachment
+    {
+        $stored = $file->store("work-jobs/{$workJob->id}/attachments", 'local');
+
+        return $workJob->attachments()->create([
+            'uploaded_by'   => $uploader->id,
+            'original_name' => $file->getClientOriginalName(),
+            'stored_name'   => $stored,
+            'mime_type'     => $file->getMimeType(),
+            'size'          => $file->getSize(),
+        ]);
+    }
+
+    /**
+     * Delete an attachment from storage and the database.
+     */
+    public function deleteAttachment(WorkJobAttachment $attachment): void
+    {
+        Storage::disk('local')->delete($attachment->stored_name);
+        $attachment->delete();
     }
 }

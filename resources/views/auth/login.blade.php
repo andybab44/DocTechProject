@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', __('app.auth.sign_in_button'))
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center -mt-16">
     <div class="w-full max-w-md bg-white rounded-lg shadow p-8">
 
         <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
-            Sign in to {{ config('app.name') }}
+            {{ __('app.auth.sign_in', ['app' => config('app.name')]) }}
         </h1>
 
         <form method="POST" action="{{ route('login') }}" novalidate>
@@ -16,7 +16,7 @@
             {{-- Email --}}
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-                    Email address
+                    {{ __('app.auth.email') }}
                 </label>
                 <input
                     id="email"
@@ -38,7 +38,7 @@
             {{-- Password --}}
             <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
-                    Password
+                    {{ __('app.auth.password') }}
                 </label>
                 <input
                     id="password"
@@ -59,13 +59,13 @@
             <div class="mb-6 flex items-center">
                 <input id="remember" type="checkbox" name="remember"
                     class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
+                <label for="remember" class="ml-2 text-sm text-gray-600">{{ __('app.auth.remember_me') }}</label>
             </div>
 
             <button type="submit"
                 class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium
                        rounded-md py-2 text-sm transition">
-                Sign in
+                {{ __('app.auth.sign_in_button') }}
             </button>
         </form>
 

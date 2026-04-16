@@ -15,16 +15,28 @@
                 <span class="font-semibold text-gray-800">{{ config('app.name') }}</span>
                 <a href="{{ route('work-jobs.calendar') }}"
                    class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('work-jobs.*') ? 'text-indigo-600 font-medium' : '' }}">
-                    Calendar
+                    {{ __('app.nav.calendar') }}
                 </a>
                 @if(auth()->user()->isAdmin())
                 <a href="{{ route('admin.users.index') }}"
                    class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('admin.users.*') ? 'text-indigo-600 font-medium' : '' }}">
-                    Users
+                    {{ __('app.nav.users') }}
+                </a>
+                <a href="{{ route('admin.licenses.index') }}"
+                   class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('admin.licenses.*') ? 'text-indigo-600 font-medium' : '' }}">
+                    {{ __('app.nav.licenses') }}
                 </a>
                 @endif
             </div>
             <div class="flex items-center gap-4">
+                {{-- Language switcher --}}
+                <div class="flex items-center gap-1 text-xs">
+                    <a href="{{ route('locale.set', 'en') }}"
+                       class="{{ app()->getLocale() === 'en' ? 'font-bold text-indigo-600' : 'text-gray-400 hover:text-gray-600' }} transition">EN</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="{{ route('locale.set', 'ro') }}"
+                       class="{{ app()->getLocale() === 'ro' ? 'font-bold text-indigo-600' : 'text-gray-400 hover:text-gray-600' }} transition">RO</a>
+                </div>
                 <span class="text-sm text-gray-600">
                     {{ auth()->user()->name }}
                     <span class="ml-1 inline-block text-xs bg-indigo-100 text-indigo-700 rounded-full px-2 py-0.5">
@@ -35,7 +47,7 @@
                     @csrf
                     <button type="submit"
                         class="text-sm text-gray-500 hover:text-gray-700 transition">
-                        Logout
+                        {{ __('app.nav.logout') }}
                     </button>
                 </form>
             </div>
@@ -49,5 +61,6 @@
         </div>
     </main>
 
+    @stack('scripts')
 </body>
 </html>
