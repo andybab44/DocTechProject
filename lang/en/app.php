@@ -7,6 +7,7 @@ return [
         'calendar'  => 'Calendar',
         'users'     => 'Users',
         'licenses'  => 'Licenses',
+        'inventory' => 'Inventory',
         'logout'    => 'Logout',
     ],
 
@@ -194,6 +195,69 @@ return [
         'back'        => '← Back to Licenses',
 
         'select_user'  => '— Select a user —',
+    ],
+
+    // Admin – Inventory
+    'inventory' => [
+        'title'           => 'Inventory',
+        'subtitle'        => 'Track stock levels and log item usage.',
+        'add_item'        => '+ Add Item',
+        'create_title'    => 'New Inventory Item',
+        'edit_title'      => 'Edit Inventory Item',
+        'back_to_list'    => '← Back to Inventory',
+
+        'col_name'        => 'Name',
+        'col_category'    => 'Category',
+        'col_quantity'    => 'Quantity',
+        'col_unit'        => 'Unit',
+        'col_threshold'   => 'Low-stock threshold',
+        'col_status'      => 'Status',
+        'col_date'        => 'Date',
+        'col_used_by'     => 'Used by',
+        'col_qty_used'    => 'Quantity used',
+        'col_work_job'    => 'Work job',
+        'col_notes'       => 'Notes',
+
+        'status_in_stock'    => 'In stock',
+        'status_low_stock'   => 'Low stock',
+        'status_out_of_stock'=> 'Out of stock',
+
+        'current_stock'      => 'Current stock',
+        'low_stock_threshold'=> 'Low-stock threshold',
+        'total_usages'       => 'Total usage entries',
+        'restock_title'      => 'Restock',
+        'log_usage_title'    => 'Log Usage',
+        'usage_history'      => 'Usage history',
+        'no_items'           => 'No inventory items found.',
+        'no_usage'           => 'No usage recorded yet.',
+
+        'field_name'         => 'Name',
+        'field_description'  => 'Description',
+        'field_quantity'     => 'Initial quantity',
+        'field_unit'         => 'Unit',
+        'field_category'     => 'Category',
+        'field_threshold'    => 'Low-stock threshold',
+        'field_quantity_used'=> 'Quantity used',
+        'field_work_job'     => 'Work job (optional)',
+        'field_notes'        => 'Notes (optional)',
+        'select_work_job'    => '— Select a work job —',
+
+        'btn_view'           => 'View',
+        'btn_edit'           => 'Edit',
+        'btn_delete'         => 'Delete',
+        'btn_restock'        => 'Restock',
+        'btn_log_usage'      => 'Log usage',
+        'btn_create'         => 'Create item',
+        'btn_save'           => 'Save changes',
+        'btn_cancel'         => 'Cancel',
+        'delete_confirm'     => 'Delete this inventory item? All usage records will also be deleted.',
+
+        'success_created'    => 'Inventory item created.',
+        'success_updated'    => 'Inventory item updated.',
+        'success_restocked'  => 'Stock updated successfully.',
+        'success_deleted'    => 'Inventory item deleted.',
+        'success_usage_logged' => 'Usage logged successfully.',
+        'error_insufficient_stock' => 'Insufficient stock for the requested quantity.',
     ],
 
     // Common

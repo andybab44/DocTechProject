@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\InventoryItemController as AdminInventoryItemController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\WorkJobController;
 use App\Http\Controllers\WorkJobAttachmentController;
@@ -40,6 +42,23 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('licenses/{license}', [LicenseController::class, 'edit'])->name('licenses.edit');
     Route::put('licenses/{license}', [LicenseController::class, 'update'])->name('licenses.update');
     Route::post('licenses/{license}/toggle-active', [LicenseController::class, 'toggleActive'])->name('licenses.toggle-active');
+});
+
+// Inventory — gated by module:inventory license
+Route::middleware(['auth', 'module:inventory'])->prefix('inventory')->name('inventory.')->group(function () {
+    Route::get('/', [InventoryItemController::class, 'index'])->name('index');
+    Route::get('/{inventoryItem}', [InventoryItemController::class, 'show'])->name('show');
+    Route::post('/{inventoryItem}/usage', [InventoryItemController::class, 'logUsage'])->name('usage.store');
+});
+
+// Admin inventory management — admin role + module:inventory
+Route::middleware(['auth', 'role:admin', 'module:inventory'])->prefix('admin/inventory')->name('admin.inventory.')->group(function () {
+    Route::get('/create', [AdminInventoryItemController::class, 'create'])->name('create');
+    Route::post('/', [AdminInventoryItemController::class, 'store'])->name('store');
+    Route::get('/{inventoryItem}/edit', [AdminInventoryItemController::class, 'edit'])->name('edit');
+    Route::put('/{inventoryItem}', [AdminInventoryItemController::class, 'update'])->name('update');
+    Route::post('/{inventoryItem}/restock', [AdminInventoryItemController::class, 'restock'])->name('restock');
+    Route::delete('/{inventoryItem}', [AdminInventoryItemController::class, 'destroy'])->name('destroy');
 });
 
 // Work Jobs — accessible to all authenticated users (doctors, technicians, admins)

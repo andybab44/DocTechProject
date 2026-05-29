@@ -9,10 +9,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
-- **User search & filter** — admin user index now has a search bar (name/email) and a role dropdown filter; pagination preserves active filters via query string
-- **User activity overview** — user index table shows job counts per user: "Jobs Created" (as doctor) and "Jobs Assigned" (as technician), loaded via `withCount`
-- **License expiry notifications** — `App\Notifications\LicenseExpiringNotification` mail notification; `licenses:notify-expiring` Artisan command (configurable `--days` option, default 7) sends email to users whose license expires on the target date; scheduled daily at 08:00 in `routes/console.php`
-- 12 new tests covering user search/filter and the expiry notification command (180 total, 348 assertions)
+- **Phase 3 — Inventory Management module** (`module:inventory`, gated by `HasModule` middleware)
+  - `InventoryItem` model: name, description, quantity, unit, category, low-stock threshold; `isLowStock()` helper
+  - `InventoryUsage` model: tracks quantity used, who used it, linked work job, and notes
+  - `inventory_items` and `inventory_usages` migrations
+  - `InventoryService` — create, update, restock, delete items; log usage with automatic stock deduction; triggers `LowStockNotification` when stock ≤ threshold after usage
+  - `LowStockNotification` — mail notification sent to all admins when an item hits low-stock threshold
+  - `InventoryItemController` (general) — index, show, log usage (all users with inventory license)
+  - `Admin\InventoryItemController` — create, store, edit, update, restock, destroy (admin + inventory license)
+  - Four form request classes: `StoreInventoryItemRequest`, `UpdateInventoryItemRequest`, `RestockInventoryItemRequest`, `StoreInventoryUsageRequest`
+  - Routes: `/inventory/*` and `/admin/inventory/*` both gated by `module:inventory`
+  - Views: `inventory/index`, `inventory/show` (with usage history, log-usage form, restock form), `admin/inventory/create`, `admin/inventory/edit`
+  - Nav link shown to users with a valid inventory license
+  - EN + RO translations for all inventory UI strings
+  - 39 new tests (219 total, 418 assertions) covering module gating, CRUD, usage logging, low-stock notifications, and authorization boundaries
 
 ---
 

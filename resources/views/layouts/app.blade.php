@@ -27,6 +27,13 @@
                     {{ __('app.nav.licenses') }}
                 </a>
                 @endif
+                @php $license = auth()->user()->license; @endphp
+                @if($license && $license->isValid() && $license->hasModule(\App\Enums\Module::Inventory))
+                <a href="{{ route('inventory.index') }}"
+                   class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('inventory.*') || request()->routeIs('admin.inventory.*') ? 'text-indigo-600 font-medium' : '' }}">
+                    {{ __('app.nav.inventory') }}
+                </a>
+                @endif
             </div>
             <div class="flex items-center gap-4">
                 {{-- Language switcher --}}

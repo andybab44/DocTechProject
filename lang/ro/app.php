@@ -7,6 +7,7 @@ return [
         'calendar'  => 'Calendar',
         'users'     => 'Utilizatori',
         'licenses'  => 'Licențe',
+        'inventory' => 'Inventar',
         'logout'    => 'Deconectare',
     ],
 
@@ -194,6 +195,69 @@ return [
         'back'        => '← Înapoi la licențe',
 
         'select_user'  => '— Selectați un utilizator —',
+    ],
+
+    // Admin – Inventory
+    'inventory' => [
+        'title'           => 'Inventar',
+        'subtitle'        => 'Urmăriți stocurile şi înregistrați utilizarea articolelor.',
+        'add_item'        => '+ Adaugă articol',
+        'create_title'    => 'Articol nou de inventar',
+        'edit_title'      => 'Editare articol de inventar',
+        'back_to_list'    => '← Înapoi la inventar',
+
+        'col_name'        => 'Nume',
+        'col_category'    => 'Categorie',
+        'col_quantity'    => 'Cantitate',
+        'col_unit'        => 'Unitate',
+        'col_threshold'   => 'Prag stoc scăzut',
+        'col_status'      => 'Status',
+        'col_date'        => 'Data',
+        'col_used_by'     => 'Utilizat de',
+        'col_qty_used'    => 'Cantitate utilizată',
+        'col_work_job'    => 'Lucrare',
+        'col_notes'       => 'Note',
+
+        'status_in_stock'    => 'In stoc',
+        'status_low_stock'   => 'Stoc scăzut',
+        'status_out_of_stock'=> 'Stoc epuizat',
+
+        'current_stock'      => 'Stoc curent',
+        'low_stock_threshold'=> 'Prag stoc scăzut',
+        'total_usages'       => 'Total înregistrări utilizare',
+        'restock_title'      => 'Reaprovizionare',
+        'log_usage_title'    => 'Înregistrare utilizare',
+        'usage_history'      => 'Istoric utilizare',
+        'no_items'           => 'Niciun articol de inventar găsit.',
+        'no_usage'           => 'Nicio utilizare înregistrată încă.',
+
+        'field_name'         => 'Nume',
+        'field_description'  => 'Descriere',
+        'field_quantity'     => 'Cantitate inițială',
+        'field_unit'         => 'Unitate',
+        'field_category'     => 'Categorie',
+        'field_threshold'    => 'Prag stoc scăzut',
+        'field_quantity_used'=> 'Cantitate utilizată',
+        'field_work_job'     => 'Lucrare (opțional)',
+        'field_notes'        => 'Note (opțional)',
+        'select_work_job'    => '— Selectați o lucrare —',
+
+        'btn_view'           => 'Vizualizează',
+        'btn_edit'           => 'Editează',
+        'btn_delete'         => 'Şterg',
+        'btn_restock'        => 'Reaprovizionare',
+        'btn_log_usage'      => 'Înregistrează utilizarea',
+        'btn_create'         => 'Creează articol',
+        'btn_save'           => 'Salvează modificările',
+        'btn_cancel'         => 'Anulează',
+        'delete_confirm'     => 'Ştergeți acest articol de inventar? Toate înregistrările de utilizare vor fi, de asemenea, şterse.',
+
+        'success_created'    => 'Articol de inventar creat.',
+        'success_updated'    => 'Articol de inventar actualizat.',
+        'success_restocked'  => 'Stocul a fost actualizat cu succes.',
+        'success_deleted'    => 'Articol de inventar şters.',
+        'success_usage_logged' => 'Utilizare înregistrată cu succes.',
+        'error_insufficient_stock' => 'Stoc insuficient pentru cantitatea solicitată.',
     ],
 
     // Common
