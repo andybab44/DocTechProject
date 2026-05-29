@@ -4,11 +4,13 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\InventoryItemController as AdminInventoryItemController;
 use App\Http\Controllers\Admin\LicenseController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WorkJobController;
 use App\Http\Controllers\WorkJobAttachmentController;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +46,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('licenses/{license}', [LicenseController::class, 'edit'])->name('licenses.edit');
     Route::put('licenses/{license}', [LicenseController::class, 'update'])->name('licenses.update');
     Route::post('licenses/{license}/toggle-active', [LicenseController::class, 'toggleActive'])->name('licenses.toggle-active');
+
+    // Reviews moderation — admin + module:reviews
+    Route::middleware('module:reviews')->group(function () {
+        Route::get('reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
+        Route::patch('reviews/{review}/toggle', [AdminReviewController::class, 'toggleVisibility'])->name('reviews.toggle');
+        Route::delete('reviews/{review}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
+    });
 });
 
 // Inventory — gated by module:inventory license
@@ -75,6 +84,11 @@ Route::middleware('auth')->group(function () {
         ->name('work-jobs.attachments.download');
     Route::delete('work-jobs/{work_job}/attachments/{attachment}', [WorkJobAttachmentController::class, 'destroy'])
         ->name('work-jobs.attachments.destroy');
+
+    // Reviews — submit review for a work job (module:reviews gated)
+    Route::middleware('module:reviews')->group(function () {
+        Route::post('work-jobs/{workJob}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    });
 });
 
 // Appointments — gated by module:appointments license

@@ -17,6 +17,7 @@ class UserService
     public function paginate(int $perPage = 15, string $search = '', ?string $role = null): LengthAwarePaginator
     {
         return User::withCount(['workJobsAsDoctor', 'workJobsAsTechnician'])
+            ->withAvg(['reviewsAsReviewee as average_rating' => fn ($q) => $q->where('is_visible', true)], 'rating')
             ->when($search !== '', fn ($q) => $q->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%");

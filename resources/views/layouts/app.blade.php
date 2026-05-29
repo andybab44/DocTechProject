@@ -40,6 +40,12 @@
                     {{ __('app.nav.appointments') }}
                 </a>
                 @endif
+                @if(auth()->user()->isAdmin() && $license && $license->isValid() && $license->hasModule(\App\Enums\Module::Reviews))
+                <a href="{{ route('admin.reviews.index') }}"
+                   class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('admin.reviews.*') ? 'text-indigo-600 font-medium' : '' }}">
+                    {{ __('app.nav.reviews') }}
+                </a>
+                @endif
             </div>
             <div class="flex items-center gap-4">
                 {{-- Language switcher --}}

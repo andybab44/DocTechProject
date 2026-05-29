@@ -9,6 +9,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- **Phase 5 — Review System module** (`module:reviews`, gated by `HasModule` middleware)
+  - `Review` model: reviewer, reviewee, work job reference, rating (1–5), optional comment, visibility flag; unique constraint ensures one review per reviewer per job
+  - `reviews` migration with foreign-key cascade/nullify rules
+  - `ReviewFactory` with `hidden()` and `forJob()` states
+  - `ReviewService` — `canReview()` (checks job status, participant eligibility, duplicate prevention), `existingReview()`, `create()` (auto-infers reviewee from reviewer role), `reviewsForJob()`, `forUser()`, `averageRating()`, `paginate()`, `toggleVisibility()`, `delete()`
+  - `StoreReviewRequest` — validates rating (integer 1–5) and optional comment (max 2000 chars)
+  - `ReviewController` — `store()` action: validates eligibility via `canReview()`, creates review, redirects to work job detail
+  - `Admin\ReviewController` — `index()`, `toggleVisibility()`, `destroy()` for admin moderation panel
+  - Work jobs show page updated: displays visible reviews for the job; shows the review form for eligible users (Done / Cancelled job, participant, not yet reviewed) or a "you've already reviewed" message
+  - Admin reviews moderation view (`admin/reviews/index`) with table of all reviews (visible and hidden), hide/show toggle, and delete
+  - Routes: `POST work-jobs/{workJob}/reviews` gated by `module:reviews`; admin `GET/PATCH/DELETE admin/reviews/*` gated by `role:admin` + `module:reviews`
+  - Admin nav "Reviews" link shown to admins with the reviews license
+  - Average visible rating added to admin users list (`withAvg` on `reviewsAsReviewee`)
+  - `reviewsAsReviewee` and `reviewsAsReviewer` HasMany relations on `User` model
+  - EN + RO translations for all reviews UI strings and `nav.reviews` key
+  - 44 new tests (311 total, 572 assertions): `ReviewServiceTest` (unit, 18 cases), `WorkJob\ReviewTest` (feature, 13 cases), `Admin\ReviewTest` (feature, 13 cases) covering module gating, submission, role eligibility, job status constraints, duplicate prevention, validation, and admin moderation
+
 - **Phase 4 — Patient Appointments module** (`module:appointments`, gated by `HasModule` middleware)
   - `Patient` model: name, date of birth, email, phone, notes; with appointment history relation
   - `Appointment` model: patient, doctor, optional work job link, scheduled datetime, status, notes; `AppointmentStatus` enum (Scheduled / Completed / Cancelled) with `label()` and `colour()` helpers

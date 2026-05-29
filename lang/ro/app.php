@@ -9,6 +9,7 @@ return [
         'licenses'     => 'Licențe',
         'inventory'    => 'Inventar',
         'appointments' => 'Programări',
+        'reviews'      => 'Recenzii',
         'logout'       => 'Deconectare',
     ],
 
@@ -151,6 +152,7 @@ return [
         'btn_reset'          => 'Resetează',
         'col_jobs_created'   => 'Lucrări create',
         'col_jobs_assigned'  => 'Lucrări atribuite',
+        'col_avg_rating'     => 'Rating mediu',
     ],
 
     // Admin – Licenses
@@ -315,6 +317,36 @@ return [
         'success_updated' => 'Pacient actualizat.',
         'success_deleted' => 'Pacient șters.',
         'notes'           => 'Note',
+    ],
+
+    // Reviews
+    'reviews' => [
+        'admin_title'              => 'Moderare recenzii',
+        'admin_subtitle'           => 'Gestionați toate recenziile trimise.',
+        'job_reviews_title'        => 'Recenzii',
+        'leave_review_title'       => 'Lăsați o recenzie',
+        'already_reviewed'         => 'Ați evaluat această lucrare cu :rating/5.',
+        'col_reviewer'             => 'Recenzent',
+        'col_reviewee'             => 'Evaluat',
+        'col_job'                  => 'Lucrare',
+        'col_rating'               => 'Rating',
+        'col_comment'              => 'Comentariu',
+        'col_status'               => 'Status',
+        'col_date'                 => 'Dată',
+        'col_avg_rating'           => 'Rating mediu',
+        'status_visible'           => 'Vizibil',
+        'status_hidden'            => 'Ascuns',
+        'field_rating'             => 'Rating',
+        'field_comment'            => 'Comentariu (opțional)',
+        'btn_submit'               => 'Trimite recenzia',
+        'btn_hide'                 => 'Ascunde',
+        'btn_show'                 => 'Arată',
+        'btn_delete'               => 'Șterge',
+        'delete_confirm'           => 'Ștergeți definitiv această recenzie?',
+        'no_reviews'               => 'Nicio recenzie găsită.',
+        'success_submitted'        => 'Recenzie trimisă.',
+        'success_visibility_updated' => 'Vizibilitatea recenziei a fost actualizată.',
+        'success_deleted'          => 'Recenzie ștearsă.',
     ],
 
     // Appointments

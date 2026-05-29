@@ -9,6 +9,7 @@ return [
         'licenses'     => 'Licenses',
         'inventory'    => 'Inventory',
         'appointments' => 'Appointments',
+        'reviews'      => 'Reviews',
         'logout'       => 'Logout',
     ],
 
@@ -151,6 +152,7 @@ return [
         'btn_reset'          => 'Reset',
         'col_jobs_created'   => 'Jobs Created',
         'col_jobs_assigned'  => 'Jobs Assigned',
+        'col_avg_rating'     => 'Avg Rating',
     ],
 
     // Admin – Licenses
@@ -315,6 +317,36 @@ return [
         'success_updated'  => 'Patient updated.',
         'success_deleted'  => 'Patient deleted.',
         'notes'            => 'Notes',
+    ],
+
+    // Reviews
+    'reviews' => [
+        'admin_title'              => 'Review Moderation',
+        'admin_subtitle'           => 'Manage all submitted reviews.',
+        'job_reviews_title'        => 'Reviews',
+        'leave_review_title'       => 'Leave a Review',
+        'already_reviewed'         => 'You rated this job :rating/5.',
+        'col_reviewer'             => 'Reviewer',
+        'col_reviewee'             => 'Reviewed',
+        'col_job'                  => 'Work Job',
+        'col_rating'               => 'Rating',
+        'col_comment'              => 'Comment',
+        'col_status'               => 'Status',
+        'col_date'                 => 'Date',
+        'col_avg_rating'           => 'Avg Rating',
+        'status_visible'           => 'Visible',
+        'status_hidden'            => 'Hidden',
+        'field_rating'             => 'Rating',
+        'field_comment'            => 'Comment (optional)',
+        'btn_submit'               => 'Submit Review',
+        'btn_hide'                 => 'Hide',
+        'btn_show'                 => 'Show',
+        'btn_delete'               => 'Delete',
+        'delete_confirm'           => 'Permanently delete this review?',
+        'no_reviews'               => 'No reviews found.',
+        'success_submitted'        => 'Review submitted.',
+        'success_visibility_updated' => 'Review visibility updated.',
+        'success_deleted'          => 'Review deleted.',
     ],
 
     // Appointments

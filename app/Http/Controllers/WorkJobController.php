@@ -6,6 +6,7 @@ use App\Enums\WorkJobStatus;
 use App\Http\Requests\StoreWorkJobRequest;
 use App\Http\Requests\UpdateWorkJobRequest;
 use App\Models\WorkJob;
+use App\Services\ReviewService;
 use App\Services\WorkJobService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,10 @@ use Illuminate\View\View;
 
 class WorkJobController extends Controller
 {
-    public function __construct(private readonly WorkJobService $workJobService) {}
+    public function __construct(
+        private readonly WorkJobService $workJobService,
+        private readonly ReviewService $reviewService,
+    ) {}
 
     /**
      * Show the calendar for the given month.
@@ -76,9 +80,13 @@ class WorkJobController extends Controller
         $this->authorizeView($workJob);
 
         $workJob->load(['doctor', 'technician', 'attachments.uploader']);
-        $statuses = WorkJobStatus::cases();
+        $statuses       = WorkJobStatus::cases();
+        $user           = auth()->user();
+        $canReview      = $this->reviewService->canReview($user, $workJob);
+        $existingReview = $this->reviewService->existingReview($user, $workJob);
+        $reviews        = $this->reviewService->reviewsForJob($workJob);
 
-        return view('work-jobs.show', compact('workJob', 'statuses'));
+        return view('work-jobs.show', compact('workJob', 'statuses', 'canReview', 'existingReview', 'reviews'));
     }
 
     /**

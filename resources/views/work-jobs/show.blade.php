@@ -129,6 +129,74 @@
     </div>
 </div>
 
+{{-- ===================== REVIEWS SECTION ===================== --}}
+@php
+    $hasReviewsModule = ($license = auth()->user()->license) && $license->isValid() && $license->hasModule(\App\Enums\Module::Reviews);
+@endphp
+@if($hasReviewsModule)
+<div class="max-w-xl mt-6 space-y-4">
+    {{-- Existing visible reviews for this job --}}
+    @if($reviews->isNotEmpty())
+    <div class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-sm font-semibold text-gray-700 mb-4">{{ __('app.reviews.job_reviews_title') }}</h2>
+        <ul class="divide-y divide-gray-100">
+            @foreach($reviews as $review)
+            <li class="py-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-sm font-medium text-gray-800">{{ $review->reviewer->name }}</span>
+                    <span class="text-yellow-500 font-semibold text-sm">{{ $review->rating }}/5 ★</span>
+                </div>
+                @if($review->comment)
+                <p class="text-sm text-gray-600">{{ $review->comment }}</p>
+                @endif
+                <p class="text-xs text-gray-400 mt-1">{{ $review->created_at->toFormattedDateString() }}</p>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    {{-- Review form (if eligible) --}}
+    @if($canReview)
+    <div class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-sm font-semibold text-gray-700 mb-4">{{ __('app.reviews.leave_review_title') }}</h2>
+        <form method="POST" action="{{ route('reviews.store', $workJob) }}" class="space-y-4">
+            @csrf
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.reviews.field_rating') }} *</label>
+                <div class="flex items-center gap-2">
+                    @for($i = 1; $i <= 5; $i++)
+                    <label class="cursor-pointer">
+                        <input type="radio" name="rating" value="{{ $i }}"
+                               {{ old('rating') == $i ? 'checked' : '' }}
+                               class="sr-only peer" required>
+                        <span class="text-2xl peer-checked:text-yellow-400 text-gray-300 hover:text-yellow-300 transition select-none">★</span>
+                    </label>
+                    @endfor
+                </div>
+                @error('rating')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
+            </div>
+            <div>
+                <label for="review_comment" class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.reviews.field_comment') }}</label>
+                <textarea id="review_comment" name="comment" rows="3"
+                          class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm @error('comment') border-red-400 @enderror">{{ old('comment') }}</textarea>
+                @error('comment')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
+            </div>
+            <button type="submit"
+                    class="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md px-5 py-2 transition">
+                {{ __('app.reviews.btn_submit') }}
+            </button>
+        </form>
+    </div>
+    @elseif($existingReview)
+    <div class="bg-white rounded-xl shadow p-4 text-sm text-gray-600 flex items-center gap-2">
+        <span class="text-yellow-400 text-xl">★</span>
+        {{ __('app.reviews.already_reviewed', ['rating' => $existingReview->rating]) }}
+    </div>
+    @endif
+</div>
+@endif
+
 {{-- ===================== UPLOAD MODAL ===================== --}}
 <div id="uploadModal" class="fixed inset-0 z-50 hidden" aria-modal="true" role="dialog">
     <div class="absolute inset-0 bg-black/50" onclick="closeUploadModal()"></div>

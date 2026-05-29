@@ -57,6 +57,7 @@
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_status') }}</th>
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_jobs_created') }}</th>
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_jobs_assigned') }}</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_avg_rating') }}</th>
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_created') }}</th>
                 <th class="px-6 py-3"></th>
             </tr>
@@ -88,6 +89,13 @@
                 </td>
                 <td class="px-6 py-4 text-gray-600 text-center">{{ $user->work_jobs_as_doctor_count }}</td>
                 <td class="px-6 py-4 text-gray-600 text-center">{{ $user->work_jobs_as_technician_count }}</td>
+                <td class="px-6 py-4 text-gray-600 text-center">
+                    @if($user->average_rating !== null)
+                        {{ number_format($user->average_rating, 1) }} / 5
+                    @else
+                        &mdash;
+                    @endif
+                </td>
                 <td class="px-6 py-4 text-gray-500">{{ $user->created_at->toFormattedDateString() }}</td>
                 <td class="px-6 py-4 text-right">
                     <div class="flex items-center justify-end gap-3">
@@ -109,7 +117,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="8" class="px-6 py-8 text-center text-gray-400">{{ __('app.users.no_users') }}</td>
+                <td colspan="9" class="px-6 py-8 text-center text-gray-400">{{ __('app.users.no_users') }}</td>
             </tr>
             @endforelse
         </tbody>
