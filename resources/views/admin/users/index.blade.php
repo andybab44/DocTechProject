@@ -21,6 +21,32 @@
     </div>
 @endif
 
+{{-- Search / filter bar --}}
+<form method="GET" action="{{ route('admin.users.index') }}" class="mb-4 flex flex-wrap gap-3">
+    <input type="text" name="search" value="{{ $search }}"
+           placeholder="{{ __('app.users.search_placeholder') }}"
+           class="flex-1 min-w-48 rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <select name="role"
+            class="rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        <option value="">{{ __('app.users.filter_all_roles') }}</option>
+        @foreach ($roles as $r)
+            <option value="{{ $r->value }}" @selected($role === $r->value)>{{ $r->label() }}</option>
+        @endforeach
+    </select>
+    <button type="submit"
+            class="rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 transition">
+        {{ __('app.users.btn_filter') }}
+    </button>
+    @if ($search !== '' || $role !== null)
+    <a href="{{ route('admin.users.index') }}"
+       class="rounded-md border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm font-medium px-4 py-2 transition">
+        {{ __('app.users.btn_reset') }}
+    </a>
+    @endif
+</form>
+
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <table class="min-w-full divide-y divide-gray-200 text-sm">
         <thead class="bg-gray-50">
@@ -29,6 +55,8 @@
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_email') }}</th>
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_role') }}</th>
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_status') }}</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_jobs_created') }}</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_jobs_assigned') }}</th>
                 <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">{{ __('app.users.col_created') }}</th>
                 <th class="px-6 py-3"></th>
             </tr>
@@ -58,6 +86,8 @@
                         <span class="inline-block text-xs font-medium rounded-full px-2.5 py-0.5 bg-red-100 text-red-600">{{ __('app.users.status_inactive') }}</span>
                     @endif
                 </td>
+                <td class="px-6 py-4 text-gray-600 text-center">{{ $user->work_jobs_as_doctor_count }}</td>
+                <td class="px-6 py-4 text-gray-600 text-center">{{ $user->work_jobs_as_technician_count }}</td>
                 <td class="px-6 py-4 text-gray-500">{{ $user->created_at->toFormattedDateString() }}</td>
                 <td class="px-6 py-4 text-right">
                     <div class="flex items-center justify-end gap-3">
@@ -79,7 +109,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="6" class="px-6 py-8 text-center text-gray-400">{{ __('app.users.no_users') }}</td>
+                <td colspan="8" class="px-6 py-8 text-center text-gray-400">{{ __('app.users.no_users') }}</td>
             </tr>
             @endforelse
         </tbody>
@@ -87,7 +117,7 @@
 
     @if ($users->hasPages())
     <div class="px-6 py-4 border-t border-gray-100">
-        {{ $users->links() }}
+        {{ $users->appends(request()->query())->links() }}
     </div>
     @endif
 </div>

@@ -142,6 +142,13 @@ return [
         'btn_cancel'  => 'Cancel',
         'btn_edit'    => 'Edit',
         'btn_back'    => '← Back',
+
+        'search_placeholder' => 'Search by name or email…',
+        'filter_all_roles'   => 'All roles',
+        'btn_filter'         => 'Filter',
+        'btn_reset'          => 'Reset',
+        'col_jobs_created'   => 'Jobs Created',
+        'col_jobs_assigned'  => 'Jobs Assigned',
     ],
 
     // Admin – Licenses

@@ -10,13 +10,20 @@ use Illuminate\Support\Facades\Hash;
 class UserService
 {
     /**
-     * Return a paginated list of all users.
+     * Return a paginated list of all users with optional search and role filters.
      *
      * @return LengthAwarePaginator<User>
      */
-    public function paginate(int $perPage = 15): LengthAwarePaginator
+    public function paginate(int $perPage = 15, string $search = '', ?string $role = null): LengthAwarePaginator
     {
-        return User::orderBy('name')->paginate($perPage);
+        return User::withCount(['workJobsAsDoctor', 'workJobsAsTechnician'])
+            ->when($search !== '', fn ($q) => $q->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            }))
+            ->when($role !== null && $role !== '', fn ($q) => $q->where('role', $role))
+            ->orderBy('name')
+            ->paginate($perPage);
     }
 
     /**

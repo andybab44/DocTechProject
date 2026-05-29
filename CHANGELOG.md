@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+- **User search & filter** — admin user index now has a search bar (name/email) and a role dropdown filter; pagination preserves active filters via query string
+- **User activity overview** — user index table shows job counts per user: "Jobs Created" (as doctor) and "Jobs Assigned" (as technician), loaded via `withCount`
+- **License expiry notifications** — `App\Notifications\LicenseExpiringNotification` mail notification; `licenses:notify-expiring` Artisan command (configurable `--days` option, default 7) sends email to users whose license expires on the target date; scheduled daily at 08:00 in `routes/console.php`
+- 12 new tests covering user search/filter and the expiry notification command (180 total, 348 assertions)
+
 ---
 
 ## [0.3.0] – 2026-04-16

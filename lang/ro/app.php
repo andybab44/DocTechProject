@@ -142,6 +142,13 @@ return [
         'btn_cancel'  => 'Anulează',
         'btn_edit'    => 'Editează',
         'btn_back'    => '← Înapoi',
+
+        'search_placeholder' => 'Caută după nume sau e-mail…',
+        'filter_all_roles'   => 'Toate rolurile',
+        'btn_filter'         => 'Filtrează',
+        'btn_reset'          => 'Resetează',
+        'col_jobs_created'   => 'Lucrări create',
+        'col_jobs_assigned'  => 'Lucrări atribuite',
     ],
 
     // Admin – Licenses

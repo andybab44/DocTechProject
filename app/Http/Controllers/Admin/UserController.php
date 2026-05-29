@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
@@ -16,9 +17,13 @@ class UserController extends Controller
 
     public function index(): View
     {
-        $users = $this->userService->paginate();
+        $search = request()->string('search')->trim()->toString();
+        $role   = request()->string('role')->toString() ?: null;
 
-        return view('admin.users.index', compact('users'));
+        $users = $this->userService->paginate(15, $search, $role);
+        $roles = Role::cases();
+
+        return view('admin.users.index', compact('users', 'roles', 'search', 'role'));
     }
 
     public function create(): View
