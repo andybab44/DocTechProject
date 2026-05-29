@@ -5,8 +5,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\InventoryItemController as AdminInventoryItemController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\WorkJobController;
 use App\Http\Controllers\WorkJobAttachmentController;
 use Illuminate\Support\Facades\Route;
@@ -73,4 +75,18 @@ Route::middleware('auth')->group(function () {
         ->name('work-jobs.attachments.download');
     Route::delete('work-jobs/{work_job}/attachments/{attachment}', [WorkJobAttachmentController::class, 'destroy'])
         ->name('work-jobs.attachments.destroy');
+});
+
+// Appointments — gated by module:appointments license
+Route::middleware(['auth', 'module:appointments'])->group(function () {
+    Route::get('/appointments', [AppointmentController::class, 'calendar'])->name('appointments.calendar');
+    Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointments.show');
+    Route::get('/appointments/{appointment}/edit', [AppointmentController::class, 'edit'])->name('appointments.edit');
+    Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
+    Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel');
+    Route::patch('/appointments/{appointment}/complete', [AppointmentController::class, 'complete'])->name('appointments.complete');
+
+    Route::resource('patients', PatientController::class);
 });

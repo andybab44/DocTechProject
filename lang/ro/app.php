@@ -4,11 +4,12 @@ return [
 
     // Navigation
     'nav' => [
-        'calendar'  => 'Calendar',
-        'users'     => 'Utilizatori',
-        'licenses'  => 'Licențe',
-        'inventory' => 'Inventar',
-        'logout'    => 'Deconectare',
+        'calendar'     => 'Calendar',
+        'users'        => 'Utilizatori',
+        'licenses'     => 'Licențe',
+        'inventory'    => 'Inventar',
+        'appointments' => 'Programări',
+        'logout'       => 'Deconectare',
     ],
 
     // Auth
@@ -261,6 +262,7 @@ return [
     ],
 
     // Common
+    'cancel' => 'Anulează',
     'common' => [
         'back'   => '← Înapoi',
         'cancel' => 'Anulează',
@@ -268,5 +270,90 @@ return [
         'delete' => 'Șterge',
         'edit'   => 'Editează',
         'remove' => 'Șterge',
+    ],
+
+    // Notifications
+    'hello'                       => 'Bună ziua, :name!',
+    'appointment_reminder_subject'=> 'Reminder programare: :patient',
+    'appointment_reminder_body'   => 'Acesta este un memento că aveți o programare cu :patient stabilită pentru :datetime.',
+    'appointment_reminder_footer' => 'Vă rugăm să vă autentificați în sistem pentru a vedea detalii complete.',
+    'view_appointment'            => 'Vizualizați programarea',
+
+    // Patients
+    'patients' => [
+        'title'          => 'Pacienți',
+        'subtitle'       => 'Gestionați fișele pacienților.',
+        'add_patient'    => '+ Adaugă pacient',
+        'create_title'   => 'Pacient nou',
+        'edit_title'     => 'Editare pacient: :name',
+        'back'           => 'Înapoi la pacienți',
+        'details'        => 'Detalii pacient',
+        'appointment_history' => 'Istoricul programărilor',
+        'no_appointments' => 'Nicio programare înregistrată.',
+        'new_appointment' => '+ Programare nouă',
+        'no_patients'    => 'Niciun pacient găsit.',
+
+        'col_name'         => 'Nume',
+        'col_dob'          => 'Data nașterii',
+        'col_email'        => 'E-mail',
+        'col_phone'        => 'Telefon',
+        'col_appointments' => 'Programări',
+
+        'field_name'  => 'Nume complet',
+        'field_dob'   => 'Data nașterii',
+        'field_email' => 'E-mail',
+        'field_phone' => 'Telefon',
+        'field_notes' => 'Note',
+
+        'btn_view'   => 'Vizualizează',
+        'btn_edit'   => 'Editează',
+        'btn_delete' => 'Șterge',
+        'btn_save'   => 'Salvează',
+
+        'delete_confirm'  => 'Ștergeți acest pacient? Toate programările sale vor fi, de asemenea, șterse.',
+        'success_created' => 'Pacient creat.',
+        'success_updated' => 'Pacient actualizat.',
+        'success_deleted' => 'Pacient șters.',
+        'notes'           => 'Note',
+    ],
+
+    // Appointments
+    'appointments' => [
+        'calendar_title'  => 'Programări — :month',
+        'show_title'      => 'Programare: :patient',
+        'create_title'    => 'Programare nouă',
+        'edit_title'      => 'Editare programare: :patient',
+        'back_calendar'   => 'Înapoi la calendar',
+        'new_appointment' => '+ Programare nouă',
+        'add_appointment' => 'Adaugă programare',
+        'no_appointments' => 'Nicio programare găsită.',
+
+        'col_date'     => 'Dată și oră',
+        'col_doctor'   => 'Medic',
+        'col_patient'  => 'Pacient',
+        'col_status'   => 'Status',
+        'col_work_job' => 'Lucrare',
+        'col_notes'    => 'Note',
+
+        'field_patient'      => 'Pacient',
+        'field_doctor'       => 'Medic',
+        'field_scheduled_at' => 'Dată și oră',
+        'field_notes'        => 'Note',
+
+        'select_patient' => '— Selectați un pacient —',
+        'select_doctor'  => '— Selectați un medic —',
+
+        'btn_view'     => 'Vizualizează',
+        'btn_edit'     => 'Editează',
+        'btn_save'     => 'Salvează',
+        'btn_cancel'   => 'Anulează programarea',
+        'btn_complete' => 'Marchează ca finalizat',
+
+        'cancel_confirm'      => 'Anulați această programare?',
+        'error_not_scheduled' => 'Doar programările cu statusul „Programat" pot fi actualizate.',
+        'success_created'     => 'Programare creată.',
+        'success_updated'     => 'Programare reprogramată.',
+        'success_cancelled'   => 'Programare anulată.',
+        'success_completed'   => 'Programare marcată ca finalizată.',
     ],
 ];

@@ -4,11 +4,12 @@ return [
 
     // Navigation
     'nav' => [
-        'calendar'  => 'Calendar',
-        'users'     => 'Users',
-        'licenses'  => 'Licenses',
-        'inventory' => 'Inventory',
-        'logout'    => 'Logout',
+        'calendar'     => 'Calendar',
+        'users'        => 'Users',
+        'licenses'     => 'Licenses',
+        'inventory'    => 'Inventory',
+        'appointments' => 'Appointments',
+        'logout'       => 'Logout',
     ],
 
     // Auth
@@ -261,6 +262,7 @@ return [
     ],
 
     // Common
+    'cancel' => 'Cancel',
     'common' => [
         'back'   => '← Back',
         'cancel' => 'Cancel',
@@ -268,5 +270,90 @@ return [
         'delete' => 'Delete',
         'edit'   => 'Edit',
         'remove' => 'Remove',
+    ],
+
+    // Notifications
+    'hello'                       => 'Hello, :name!',
+    'appointment_reminder_subject'=> 'Appointment Reminder: :patient',
+    'appointment_reminder_body'   => 'This is a reminder that you have an appointment with :patient scheduled for :datetime.',
+    'appointment_reminder_footer' => 'Please log in to the system to view full details.',
+    'view_appointment'            => 'View Appointment',
+
+    // Patients
+    'patients' => [
+        'title'          => 'Patients',
+        'subtitle'       => 'Manage patient records.',
+        'add_patient'    => '+ Add Patient',
+        'create_title'   => 'New Patient',
+        'edit_title'     => 'Edit Patient: :name',
+        'back'           => 'Back to Patients',
+        'details'        => 'Patient Details',
+        'appointment_history' => 'Appointment History',
+        'no_appointments' => 'No appointments recorded.',
+        'new_appointment' => '+ New Appointment',
+        'no_patients'    => 'No patients found.',
+
+        'col_name'         => 'Name',
+        'col_dob'          => 'Date of Birth',
+        'col_email'        => 'Email',
+        'col_phone'        => 'Phone',
+        'col_appointments' => 'Appointments',
+
+        'field_name'  => 'Full Name',
+        'field_dob'   => 'Date of Birth',
+        'field_email' => 'Email',
+        'field_phone' => 'Phone',
+        'field_notes' => 'Notes',
+
+        'btn_view'   => 'View',
+        'btn_edit'   => 'Edit',
+        'btn_delete' => 'Delete',
+        'btn_save'   => 'Save',
+
+        'delete_confirm'   => 'Delete this patient? All their appointments will also be deleted.',
+        'success_created'  => 'Patient created.',
+        'success_updated'  => 'Patient updated.',
+        'success_deleted'  => 'Patient deleted.',
+        'notes'            => 'Notes',
+    ],
+
+    // Appointments
+    'appointments' => [
+        'calendar_title'  => 'Appointments — :month',
+        'show_title'      => 'Appointment: :patient',
+        'create_title'    => 'New Appointment',
+        'edit_title'      => 'Edit Appointment: :patient',
+        'back_calendar'   => 'Back to Calendar',
+        'new_appointment' => '+ New Appointment',
+        'add_appointment' => 'Add appointment',
+        'no_appointments' => 'No appointments found.',
+
+        'col_date'     => 'Date & Time',
+        'col_doctor'   => 'Doctor',
+        'col_patient'  => 'Patient',
+        'col_status'   => 'Status',
+        'col_work_job' => 'Work Job',
+        'col_notes'    => 'Notes',
+
+        'field_patient'      => 'Patient',
+        'field_doctor'       => 'Doctor',
+        'field_scheduled_at' => 'Date & Time',
+        'field_notes'        => 'Notes',
+
+        'select_patient' => '— Select a patient —',
+        'select_doctor'  => '— Select a doctor —',
+
+        'btn_view'     => 'View',
+        'btn_edit'     => 'Edit',
+        'btn_save'     => 'Save',
+        'btn_cancel'   => 'Cancel Appointment',
+        'btn_complete' => 'Mark Complete',
+
+        'cancel_confirm'       => 'Cancel this appointment?',
+        'error_not_scheduled'  => 'Only scheduled appointments can be updated.',
+        'success_created'      => 'Appointment created.',
+        'success_updated'      => 'Appointment rescheduled.',
+        'success_cancelled'    => 'Appointment cancelled.',
+        'success_completed'    => 'Appointment marked as completed.',
     ],
 ];

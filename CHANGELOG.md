@@ -9,6 +9,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- **Phase 4 — Patient Appointments module** (`module:appointments`, gated by `HasModule` middleware)
+  - `Patient` model: name, date of birth, email, phone, notes; with appointment history relation
+  - `Appointment` model: patient, doctor, optional work job link, scheduled datetime, status, notes; `AppointmentStatus` enum (Scheduled / Completed / Cancelled) with `label()` and `colour()` helpers
+  - `patients` and `appointments` migrations (with cascade delete on patient removal)
+  - `AppointmentService` — CRUD for patients; create, reschedule, cancel, complete appointments; calendar scoping (admin sees all, doctor sees own); `getDueForReminder()` for scheduled notifications
+  - `AppointmentReminderNotification` — mail notification sent to the appointment's doctor ahead of the scheduled time
+  - `SendAppointmentReminders` artisan command (`appointments:send-reminders --hours=24`) — scheduled hourly; finds scheduled appointments in the reminder window and dispatches notifications
+  - `PatientController` — index, show (with appointment history), create, store, edit, update, destroy; create/edit/destroy restricted to admins
+  - `AppointmentController` — monthly calendar, show, create, store, edit, update, cancel, complete; technicians are read-only; doctors can only manage their own appointments
+  - Four form request classes: `StorePatientRequest`, `UpdatePatientRequest`, `StoreAppointmentRequest`, `UpdateAppointmentRequest`
+  - Routes: `/appointments/*` and `/patients/*` gated by `module:appointments`
+  - Views: `appointments/calendar`, `appointments/show`, `appointments/create`, `appointments/edit`, `patients/index`, `patients/show` (with appointment history table), `patients/create`, `patients/edit`
+  - Nav link shown to users with a valid appointments license
+  - EN + RO translations for all appointments and patients UI strings
+  - 48 new tests (267 total, 497 assertions) covering module gating, CRUD, authorization boundaries, calendar scoping, status transitions, and reminder command
+
 - **Phase 3 — Inventory Management module** (`module:inventory`, gated by `HasModule` middleware)
   - `InventoryItem` model: name, description, quantity, unit, category, low-stock threshold; `isLowStock()` helper
   - `InventoryUsage` model: tracks quantity used, who used it, linked work job, and notes
@@ -22,7 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - Views: `inventory/index`, `inventory/show` (with usage history, log-usage form, restock form), `admin/inventory/create`, `admin/inventory/edit`
   - Nav link shown to users with a valid inventory license
   - EN + RO translations for all inventory UI strings
-  - 39 new tests (219 total, 418 assertions) covering module gating, CRUD, usage logging, low-stock notifications, and authorization boundaries
+  - 39 new tests covering module gating, CRUD, usage logging, low-stock notifications, and authorization boundaries
 
 ---
 

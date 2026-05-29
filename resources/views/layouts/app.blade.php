@@ -34,6 +34,12 @@
                     {{ __('app.nav.inventory') }}
                 </a>
                 @endif
+                @if($license && $license->isValid() && $license->hasModule(\App\Enums\Module::Appointments))
+                <a href="{{ route('appointments.calendar') }}"
+                   class="text-sm text-gray-600 hover:text-indigo-600 transition {{ request()->routeIs('appointments.*') || request()->routeIs('patients.*') ? 'text-indigo-600 font-medium' : '' }}">
+                    {{ __('app.nav.appointments') }}
+                </a>
+                @endif
             </div>
             <div class="flex items-center gap-4">
                 {{-- Language switcher --}}
