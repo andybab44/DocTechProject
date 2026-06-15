@@ -21,10 +21,11 @@ class UpdateWorkJobRequest extends FormRequest
     {
         $user = $this->user();
 
-        // Technicians may only update the status
+        // Technicians may only update the status (and add optional notes)
         if ($user?->isTechnician()) {
             return [
-                'status' => ['required', Rule::enum(WorkJobStatus::class)],
+                'status'       => ['required', Rule::enum(WorkJobStatus::class)],
+                'status_notes' => ['nullable', 'string', 'max:500'],
             ];
         }
 
@@ -35,6 +36,7 @@ class UpdateWorkJobRequest extends FormRequest
             'scheduled_at'  => ['sometimes', 'required', 'date'],
             'technician_id' => ['sometimes', 'required', 'integer', Rule::exists('users', 'id')->where('role', Role::Technician->value)],
             'status'        => ['sometimes', 'required', Rule::enum(WorkJobStatus::class)],
+            'status_notes'  => ['nullable', 'string', 'max:500'],
         ];
     }
 }

@@ -94,8 +94,9 @@ return [
         'btn_upload'    => 'Upload',
         'btn_remove'    => 'Remove',
 
-        'update_status'     => 'Update Status',
-        'btn_save_status'   => 'Save',
+        'update_status'           => 'Update Status',
+        'btn_save_status'         => 'Save',
+        'status_notes_placeholder' => 'Optional note about this status change…',
 
         'details_requested_by'  => 'Requested by',
         'details_assigned_to'   => 'Assigned to',
@@ -347,6 +348,29 @@ return [
         'success_submitted'        => 'Review submitted.',
         'success_visibility_updated' => 'Review visibility updated.',
         'success_deleted'          => 'Review deleted.',
+    ],
+
+    // ── Enum labels ──────────────────────────────────────────────────────────
+    'work_job_statuses' => [
+        'awaiting_acceptance' => 'Awaiting Acceptance',
+        'in_progress'         => 'In Progress',
+        'in_review'           => 'In Review',
+        'needs_revision'      => 'Needs Revision',
+        'ready_for_delivery'  => 'Ready for Delivery',
+        'delivered'           => 'Delivered',
+        'cancelled'           => 'Cancelled',
+    ],
+
+    'appointment_statuses' => [
+        'scheduled' => 'Scheduled',
+        'completed' => 'Completed',
+        'cancelled' => 'Cancelled',
+    ],
+
+    'roles' => [
+        'admin'       => 'Admin',
+        'doctor'      => 'Doctor',
+        'technician'  => 'Technician',
     ],
 
     // Appointments

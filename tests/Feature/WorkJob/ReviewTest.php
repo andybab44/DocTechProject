@@ -35,7 +35,7 @@ class ReviewTest extends TestCase
         return WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $technician->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
     }
 
@@ -155,7 +155,7 @@ class ReviewTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Pending,
+            'status'        => WorkJobStatus::AwaitingAcceptance,
         ]);
 
         $this->actingAs($doctor)

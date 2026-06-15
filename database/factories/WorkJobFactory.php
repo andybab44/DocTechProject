@@ -21,7 +21,7 @@ class WorkJobFactory extends Factory
             'title'         => fake()->sentence(3),
             'description'   => fake()->optional()->paragraph(),
             'scheduled_at'  => Carbon::now()->addDays(fake()->numberBetween(1, 30)),
-            'status'        => WorkJobStatus::Pending,
+            'status'        => WorkJobStatus::AwaitingAcceptance,
             'doctor_id'     => User::factory()->doctor(),
             'technician_id' => User::factory()->technician(),
         ];

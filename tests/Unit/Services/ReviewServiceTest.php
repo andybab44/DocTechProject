@@ -33,7 +33,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         $this->assertTrue($this->service->canReview($doctor, $job));
@@ -46,7 +46,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         $this->assertTrue($this->service->canReview($tech, $job));
@@ -72,7 +72,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Pending,
+            'status'        => WorkJobStatus::AwaitingAcceptance,
         ]);
 
         $this->assertFalse($this->service->canReview($doctor, $job));
@@ -99,7 +99,7 @@ class ReviewServiceTest extends TestCase
         $job     = WorkJob::factory()->create([
             'doctor_id'    => $doctor1->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         $this->assertFalse($this->service->canReview($doctor2, $job));
@@ -112,7 +112,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         Review::factory()->create([
@@ -132,7 +132,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         $this->assertFalse($this->service->canReview($admin, $job));
@@ -145,7 +145,7 @@ class ReviewServiceTest extends TestCase
     public function test_existing_review_returns_null_when_none(): void
     {
         $doctor = User::factory()->doctor()->create();
-        $job    = WorkJob::factory()->create(['doctor_id' => $doctor->id, 'status' => WorkJobStatus::Done]);
+        $job    = WorkJob::factory()->create(['doctor_id' => $doctor->id, 'status' => WorkJobStatus::Delivered]);
 
         $this->assertNull($this->service->existingReview($doctor, $job));
     }
@@ -157,7 +157,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         $review = Review::factory()->create([
@@ -183,7 +183,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         $review = $this->service->create($doctor, $job, ['rating' => 4, 'comment' => 'Good work']);
@@ -202,7 +202,7 @@ class ReviewServiceTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'        => WorkJobStatus::Done,
+            'status'        => WorkJobStatus::Delivered,
         ]);
 
         $review = $this->service->create($tech, $job, ['rating' => 5, 'comment' => null]);

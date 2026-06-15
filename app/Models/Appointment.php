@@ -17,6 +17,7 @@ class Appointment extends Model
         'patient_id',
         'doctor_id',
         'work_job_id',
+        'case_id',
         'scheduled_at',
         'status',
         'notes',
@@ -43,6 +44,11 @@ class Appointment extends Model
     public function workJob(): BelongsTo
     {
         return $this->belongsTo(WorkJob::class);
+    }
+
+    public function dentalCase(): BelongsTo
+    {
+        return $this->belongsTo(DentalCase::class, 'case_id');
     }
 
     public function isScheduled(): bool

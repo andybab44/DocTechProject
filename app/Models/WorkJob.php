@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['title', 'description', 'scheduled_at', 'status', 'doctor_id', 'technician_id'])]
+#[Fillable(['title', 'description', 'scheduled_at', 'status', 'doctor_id', 'technician_id', 'case_id'])]
 class WorkJob extends Model
 {
     /** @use HasFactory<WorkJobFactory> */
@@ -36,5 +36,15 @@ class WorkJob extends Model
     public function attachments(): HasMany
     {
         return $this->hasMany(WorkJobAttachment::class);
+    }
+
+    public function statusHistory(): HasMany
+    {
+        return $this->hasMany(WorkJobStatusHistory::class)->orderBy('created_at');
+    }
+
+    public function dentalCase(): BelongsTo
+    {
+        return $this->belongsTo(DentalCase::class, 'case_id');
     }
 }

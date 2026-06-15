@@ -8,6 +8,12 @@ fi
 
 cd /var/www/html
 
+# ── Wipe stale bootstrap cache BEFORE any artisan call ────────────────────
+# The bind-mounted ./bootstrap/cache may contain dev-only package references
+# (e.g. laravel/pail) that aren't installed in the production image.
+# Removing them here lets the first artisan command rebuild them cleanly.
+rm -f bootstrap/cache/packages.php bootstrap/cache/services.php
+
 # ── Generate app key if not set ────────────────────────────────────────────
 if [ -z "${APP_KEY}" ]; then
     php artisan key:generate --force

@@ -123,7 +123,7 @@ class WorkJobServiceTest extends TestCase
     // create
     // =========================================================================
 
-    public function test_create_persists_work_job_with_pending_status(): void
+    public function test_create_persists_work_job_with_awaiting_acceptance_status(): void
     {
         $doctor = User::factory()->doctor()->create();
         $tech   = User::factory()->technician()->create();
@@ -136,7 +136,7 @@ class WorkJobServiceTest extends TestCase
         ]);
 
         $this->assertInstanceOf(WorkJob::class, $job);
-        $this->assertEquals(WorkJobStatus::Pending, $job->status);
+        $this->assertEquals(WorkJobStatus::AwaitingAcceptance, $job->status);
         $this->assertEquals($doctor->id, $job->doctor_id);
         $this->assertEquals($tech->id, $job->technician_id);
         $this->assertDatabaseHas('work_jobs', ['title' => 'Test Job']);
@@ -150,12 +150,116 @@ class WorkJobServiceTest extends TestCase
     {
         $doctor = User::factory()->doctor()->create();
         $tech   = User::factory()->technician()->create();
-        $job    = WorkJob::factory()->create(['doctor_id' => $doctor->id, 'technician_id' => $tech->id, 'status' => WorkJobStatus::Pending]);
+        $job    = WorkJob::factory()->create(['doctor_id' => $doctor->id, 'technician_id' => $tech->id, 'status' => WorkJobStatus::AwaitingAcceptance]);
 
-        $updated = $this->service->updateStatus($job, WorkJobStatus::InProgress);
+        $updated = $this->service->updateStatus($job, WorkJobStatus::InProgress, $tech);
 
         $this->assertEquals(WorkJobStatus::InProgress, $updated->status);
         $this->assertDatabaseHas('work_jobs', ['id' => $job->id, 'status' => WorkJobStatus::InProgress->value]);
+    }
+
+    public function test_update_status_records_history_entry(): void
+    {
+        $doctor = User::factory()->doctor()->create();
+        $tech   = User::factory()->technician()->create();
+        $job    = WorkJob::factory()->create(['doctor_id' => $doctor->id, 'technician_id' => $tech->id, 'status' => WorkJobStatus::AwaitingAcceptance]);
+
+        $this->service->updateStatus($job, WorkJobStatus::InProgress, $tech, 'Starting now');
+
+        $this->assertDatabaseHas('work_job_status_history', [
+            'work_job_id' => $job->id,
+            'from_status' => WorkJobStatus::AwaitingAcceptance->value,
+            'to_status'   => WorkJobStatus::InProgress->value,
+            'changed_by'  => $tech->id,
+            'notes'       => 'Starting now',
+        ]);
+    }
+
+    // =========================================================================
+    // canTransition
+    // =========================================================================
+
+    public function test_technician_can_accept_awaiting_job(): void
+    {
+        $tech = User::factory()->technician()->create();
+        $job  = WorkJob::factory()->create(['status' => WorkJobStatus::AwaitingAcceptance]);
+
+        $this->assertTrue($this->service->canTransition($tech, $job, WorkJobStatus::InProgress));
+    }
+
+    public function test_technician_cannot_skip_to_delivered(): void
+    {
+        $tech = User::factory()->technician()->create();
+        $job  = WorkJob::factory()->create(['status' => WorkJobStatus::InProgress]);
+
+        $this->assertFalse($this->service->canTransition($tech, $job, WorkJobStatus::Delivered));
+    }
+
+    public function test_technician_can_submit_for_review(): void
+    {
+        $tech = User::factory()->technician()->create();
+        $job  = WorkJob::factory()->create(['status' => WorkJobStatus::InProgress]);
+
+        $this->assertTrue($this->service->canTransition($tech, $job, WorkJobStatus::InReview));
+    }
+
+    public function test_doctor_can_approve_in_review_job(): void
+    {
+        $doctor = User::factory()->doctor()->create();
+        $job    = WorkJob::factory()->create(['status' => WorkJobStatus::InReview]);
+
+        $this->assertTrue($this->service->canTransition($doctor, $job, WorkJobStatus::ReadyForDelivery));
+    }
+
+    public function test_doctor_can_request_revision(): void
+    {
+        $doctor = User::factory()->doctor()->create();
+        $job    = WorkJob::factory()->create(['status' => WorkJobStatus::InReview]);
+
+        $this->assertTrue($this->service->canTransition($doctor, $job, WorkJobStatus::NeedsRevision));
+    }
+
+    public function test_doctor_cannot_accept_from_awaiting(): void
+    {
+        $doctor = User::factory()->doctor()->create();
+        $job    = WorkJob::factory()->create(['status' => WorkJobStatus::AwaitingAcceptance]);
+
+        $this->assertFalse($this->service->canTransition($doctor, $job, WorkJobStatus::InProgress));
+    }
+
+    public function test_admin_can_perform_any_transition(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $job   = WorkJob::factory()->create(['status' => WorkJobStatus::AwaitingAcceptance]);
+
+        $this->assertTrue($this->service->canTransition($admin, $job, WorkJobStatus::Delivered));
+    }
+
+    // =========================================================================
+    // allowedTransitionsForUser
+    // =========================================================================
+
+    public function test_allowed_transitions_for_technician_on_awaiting_job(): void
+    {
+        $tech = User::factory()->technician()->create();
+        $job  = WorkJob::factory()->create(['status' => WorkJobStatus::AwaitingAcceptance]);
+
+        $statuses = $this->service->allowedTransitionsForUser($tech, $job);
+        $values   = array_map(fn ($s) => $s->value, $statuses);
+
+        $this->assertContains(WorkJobStatus::AwaitingAcceptance->value, $values);
+        $this->assertContains(WorkJobStatus::InProgress->value, $values);
+        $this->assertNotContains(WorkJobStatus::Delivered->value, $values);
+    }
+
+    public function test_allowed_transitions_for_admin_returns_all_statuses(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $job   = WorkJob::factory()->create(['status' => WorkJobStatus::AwaitingAcceptance]);
+
+        $statuses = $this->service->allowedTransitionsForUser($admin, $job);
+
+        $this->assertCount(count(WorkJobStatus::cases()), $statuses);
     }
 
     // =========================================================================

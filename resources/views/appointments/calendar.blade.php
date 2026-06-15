@@ -4,21 +4,21 @@
 
 @section('content')
 <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-    <h1 class="text-2xl font-semibold text-gray-800">
+    <h1 class="text-2xl font-semibold text-stone-800">
         {{ __('app.appointments.calendar_title', ['month' => $currentMonth->format('F Y')]) }}
     </h1>
     <div class="flex items-center gap-3">
         <a href="{{ route('appointments.calendar', ['year' => $prevMonth->year, 'month' => $prevMonth->month]) }}"
-           class="inline-flex items-center px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition">
+           class="inline-flex items-center px-3 py-1.5 text-sm bg-white border border-stone-300 rounded-lg shadow-sm hover:bg-stone-50 transition">
             ← {{ $prevMonth->format('M') }}
         </a>
         <a href="{{ route('appointments.calendar', ['year' => $nextMonth->year, 'month' => $nextMonth->month]) }}"
-           class="inline-flex items-center px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition">
+           class="inline-flex items-center px-3 py-1.5 text-sm bg-white border border-stone-300 rounded-lg shadow-sm hover:bg-stone-50 transition">
             {{ $nextMonth->format('M') }} →
         </a>
         @if(auth()->user()->isDoctor() || auth()->user()->isAdmin())
         <a href="{{ route('appointments.create') }}"
-           class="inline-flex items-center px-4 py-1.5 text-sm bg-indigo-600 text-white rounded-lg shadow-sm hover:bg-indigo-700 transition">
+           class="inline-flex items-center px-4 py-1.5 text-sm bg-teal-700 text-white rounded-lg shadow-sm hover:bg-teal-800 transition">
             {{ __('app.appointments.new_appointment') }}
         </a>
         @endif
@@ -41,10 +41,10 @@
     ];
 @endphp
 
-<div class="bg-white rounded-xl shadow overflow-hidden border border-gray-200">
-    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));" class="border-b border-gray-200 bg-gray-50">
+<div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden border border-stone-200">
+    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));" class="border-b border-stone-200 bg-stone-50">
         @foreach($dayHeaders as $d)
-        <div class="py-2 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider border-r border-gray-200 last:border-r-0">{{ $d }}</div>
+        <div class="py-2 text-center text-xs font-semibold text-stone-500 uppercase tracking-wider border-r border-stone-200 last:border-r-0">{{ $d }}</div>
         @endforeach
     </div>
 
@@ -54,7 +54,7 @@
     @endphp
     <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));">
         @for($i = 1; $i < $firstDayOfWeek; $i++)
-        <div style="min-height:96px;" class="bg-gray-50 p-1 border-r border-b border-gray-100"></div>
+        <div style="min-height:96px;" class="bg-stone-50 p-1 border-r border-b border-stone-100"></div>
         @endfor
 
         @for($day = 1; $day <= $daysInMonth; $day++)
@@ -65,15 +65,15 @@
             $col          = (($firstDayOfWeek - 1 + $day - 1) % 7) + 1;
             $isLastCol    = $col === 7;
         @endphp
-        <div style="min-height:96px;" class="p-1 border-b border-gray-100 {{ $isLastCol ? '' : 'border-r' }} border-gray-100 {{ $isToday ? 'bg-indigo-50' : 'bg-white' }}">
+        <div style="min-height:96px;" class="p-1 border-b border-stone-100 {{ $isLastCol ? '' : 'border-r' }} border-stone-100 {{ $isToday ? 'bg-teal-50' : 'bg-white' }}">
             <div class="flex items-center justify-between mb-1">
                 <span class="inline-flex items-center justify-center w-6 h-6 text-xs font-semibold rounded-full
-                    {{ $isToday ? 'bg-indigo-600 text-white' : 'text-gray-400' }}">
+                    {{ $isToday ? 'bg-teal-700 text-white' : 'text-stone-400' }}">
                     {{ $day }}
                 </span>
                 @if(auth()->user()->isDoctor() || auth()->user()->isAdmin())
                 <a href="{{ route('appointments.create', ['date' => $date->format('Y-m-d')]) }}"
-                   class="text-gray-300 hover:text-indigo-500 text-base leading-none transition" title="{{ __('app.appointments.add_appointment') }}">+</a>
+                   class="text-stone-300 hover:text-teal-600 text-base leading-none transition" title="{{ __('app.appointments.add_appointment') }}">+</a>
                 @endif
             </div>
 
@@ -89,7 +89,7 @@
         @endfor
 
         @for($i = 0; $i < $trailingCells; $i++)
-        <div style="min-height:96px;" class="bg-gray-50 p-1 border-r border-b border-gray-100 last:border-r-0"></div>
+        <div style="min-height:96px;" class="bg-stone-50 p-1 border-r border-b border-stone-100 last:border-r-0"></div>
         @endfor
     </div>
 </div>
@@ -97,7 +97,7 @@
 {{-- Legend --}}
 <div class="mt-4 flex flex-wrap gap-3">
     @foreach(\App\Enums\AppointmentStatus::cases() as $status)
-    <span class="inline-flex items-center gap-1.5 text-xs text-gray-600">
+    <span class="inline-flex items-center gap-1.5 text-xs text-stone-600">
         <span class="inline-block w-3 h-3 rounded-full {{ $status->colour() }}"></span>
         {{ $status->label() }}
     </span>

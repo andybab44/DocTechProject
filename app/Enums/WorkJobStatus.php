@@ -4,28 +4,29 @@ namespace App\Enums;
 
 enum WorkJobStatus: string
 {
-    case Pending    = 'pending';
-    case InProgress = 'in_progress';
-    case Done       = 'done';
-    case Cancelled  = 'cancelled';
+    case AwaitingAcceptance = 'awaiting_acceptance';
+    case InProgress         = 'in_progress';
+    case InReview           = 'in_review';
+    case NeedsRevision      = 'needs_revision';
+    case ReadyForDelivery   = 'ready_for_delivery';
+    case Delivered          = 'delivered';
+    case Cancelled          = 'cancelled';
 
     public function label(): string
     {
-        return match($this) {
-            self::Pending    => 'Pending',
-            self::InProgress => 'In Progress',
-            self::Done       => 'Done',
-            self::Cancelled  => 'Cancelled',
-        };
+        return __('app.work_job_statuses.' . $this->value);
     }
 
     public function color(): string
     {
         return match($this) {
-            self::Pending    => 'yellow',
-            self::InProgress => 'blue',
-            self::Done       => 'green',
-            self::Cancelled  => 'red',
+            self::AwaitingAcceptance => 'yellow',
+            self::InProgress         => 'blue',
+            self::InReview           => 'purple',
+            self::NeedsRevision      => 'orange',
+            self::ReadyForDelivery   => 'teal',
+            self::Delivered          => 'green',
+            self::Cancelled          => 'red',
         };
     }
 }

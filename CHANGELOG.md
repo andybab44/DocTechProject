@@ -9,7 +9,62 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
-- **Phase 5 — Review System module** (`module:reviews`, gated by `HasModule` middleware)
+- **Work Job Status Expansion** — richer status lifecycle for the doctor-technician workflow
+  - `WorkJobStatus` enum expanded from 4 to 7 values: `awaiting_acceptance`, `in_progress`, `in_review`, `needs_revision`, `ready_for_delivery`, `delivered`, `cancelled`
+  - Role-gated transitions enforced in `WorkJobService::canTransition()` and `WorkJobService::allowedTransitionsForUser()`: technicians accept → submit → rework; doctors approve/reject → confirm delivery; admins unrestricted
+  - Data migration converts legacy `pending` → `awaiting_acceptance` and `done` → `delivered`; status column widened from ENUM to VARCHAR(50) for future extensibility
+  - New CSS pill classes for purple (in review), orange (needs revision), teal (ready for delivery) statuses
+  - Status dropdowns in `show` and `edit` views are role-filtered — each user only sees transitions they are allowed to make
+  - Optional status-change note field on status update forms
+
+- **Status Audit Trail**
+  - `work_job_status_history` table: `work_job_id`, `from_status`, `to_status`, `changed_by`, `notes`, `created_at`
+  - `WorkJobStatusHistory` model with `belongsTo WorkJob` and `belongsTo User(changedBy)`
+  - Every status change via `WorkJobService::updateStatus()` creates a history record
+  - Status timeline displayed on the work job detail page
+
+- **In-App Notifications**
+  - Laravel `notifications` table migration
+  - `WorkJobStatusChangedNotification` (database channel) stores work job ID, title, new status label, and actor name
+  - Automatic notifications on key transitions: doctor notified when technician accepts / submits for review / marks ready; technician notified when doctor requests revision / confirms delivery
+  - Notification bell with unread count badge in the navbar
+  - `/notifications` page listing all notifications with mark-as-read and mark-all-read actions
+  - `NotificationController` with `index`, `markRead`, `markAllRead` actions
+
+- **DentalCase entity** — groups patient, appointments, and work jobs under one case
+  - `dental_cases` table: `patient_id`, `doctor_id`, `title`, `description`, `notes`
+  - Nullable `case_id` FK added to `work_jobs` and `appointments` tables (nullifies on case delete)
+  - `DentalCase` model with `hasMany WorkJob`, `hasMany Appointment`, `belongsTo Patient`, `belongsTo User(doctor)`; `WorkJob` and `Appointment` models updated with `dentalCase()` relation
+  - `DentalCaseFactory` for tests
+  - `CaseService` — `paginate()` (role-scoped), `create()`, `update()`, `delete()`, `getPatients()`
+  - `CaseController` with full CRUD; restricted to doctors (own cases) and admins
+  - `StoreCaseRequest` and `UpdateCaseRequest` with validation
+  - Four Blade views: `cases/index`, `cases/show` (with linked work jobs and appointments), `cases/create`, `cases/edit`
+  - "Cases" nav link added for doctors and admins
+  - Doctor dashboard updated with "View Cases" action
+
+- **Tests** — 41 new tests covering status transitions, audit trail, and DentalCase CRUD (342 total, 626 assertions)
+  - `WorkJobStatusTransitionTest` (feature): valid/invalid transitions per role, history record creation, cross-ownership 403s
+  - `CaseTest` (feature): CRUD, role boundaries, data isolation
+  - `WorkJobServiceTest` (unit): `canTransition`, `allowedTransitionsForUser`, history recording
+
+- **UI Theme — Warm Neutral "Dental Studio"**
+  - Global palette shift: primary accent changed from Indigo to Teal-700 (`#0f766e`); neutral base changed from Gray to Stone (warm greys)
+  - Body background `bg-stone-50`, headings `text-stone-900`, body copy `text-stone-800`
+  - Cards updated to `shadow-sm border border-stone-200` for a lighter, more refined look
+  - Navbar redesigned: app name with teal accent bar, links use `text-stone-500 / hover:text-teal-700`, active link `text-teal-700 font-semibold`, role badge `bg-teal-100 text-teal-800`
+  - Login page redesigned with warm card layout (stone background, teal inputs)
+  - Welcome/landing page simplified with teal branding and tagline
+  - All three dashboards updated: stat cards use teal/green/amber left-border accents
+  - Typography: `Instrument Sans` replaced with `Inter` (Google Fonts); loaded via CDN link in layout
+  - All 33 Blade views updated: consistent stone/teal colour tokens, unified card style
+
+### Changed
+- `WorkJobService::updateStatus()` signature updated — now requires the `User` who initiated the change and an optional `notes` string; fires notifications and records history
+- `ReviewService::canReview()` updated to check `Delivered` instead of `Done`
+- Status dropdown on show/edit pages is now role-filtered (only shows allowed next states)
+
+
   - `Review` model: reviewer, reviewee, work job reference, rating (1–5), optional comment, visibility flag; unique constraint ensures one review per reviewer per job
   - `reviews` migration with foreign-key cascade/nullify rules
   - `ReviewFactory` with `hidden()` and `forJob()` states

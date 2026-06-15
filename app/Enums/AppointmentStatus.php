@@ -10,11 +10,7 @@ enum AppointmentStatus: string
 
     public function label(): string
     {
-        return match($this) {
-            AppointmentStatus::Scheduled => 'Scheduled',
-            AppointmentStatus::Completed => 'Completed',
-            AppointmentStatus::Cancelled => 'Cancelled',
-        };
+        return __('app.appointment_statuses.' . $this->value);
     }
 
     public function colour(): string

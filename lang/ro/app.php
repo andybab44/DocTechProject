@@ -94,8 +94,9 @@ return [
         'btn_upload'    => 'Încarcă',
         'btn_remove'    => 'Șterge',
 
-        'update_status'     => 'Actualizare status',
-        'btn_save_status'   => 'Salvează',
+        'update_status'           => 'Actualizare status',
+        'btn_save_status'         => 'Salvează',
+        'status_notes_placeholder' => 'Notă opțională despre această schimbare de status…',
 
         'details_requested_by'  => 'Solicitat de',
         'details_assigned_to'   => 'Atribuit',
@@ -347,6 +348,29 @@ return [
         'success_submitted'        => 'Recenzie trimisă.',
         'success_visibility_updated' => 'Vizibilitatea recenziei a fost actualizată.',
         'success_deleted'          => 'Recenzie ștearsă.',
+    ],
+
+    // ── Etichete enum ────────────────────────────────────────────────────────
+    'work_job_statuses' => [
+        'awaiting_acceptance' => 'În așteptare',
+        'in_progress'         => 'În lucru',
+        'in_review'           => 'În verificare',
+        'needs_revision'      => 'Necesită revizuire',
+        'ready_for_delivery'  => 'Gata de livrare',
+        'delivered'           => 'Livrat',
+        'cancelled'           => 'Anulat',
+    ],
+
+    'appointment_statuses' => [
+        'scheduled' => 'Programat',
+        'completed' => 'Finalizat',
+        'cancelled' => 'Anulat',
+    ],
+
+    'roles' => [
+        'admin'       => 'Administrator',
+        'doctor'      => 'Doctor',
+        'technician'  => 'Tehnician',
     ],
 
     // Appointments

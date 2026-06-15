@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CaseController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\InventoryItemController as AdminInventoryItemController;
@@ -103,4 +105,16 @@ Route::middleware(['auth', 'module:appointments'])->group(function () {
     Route::patch('/appointments/{appointment}/complete', [AppointmentController::class, 'complete'])->name('appointments.complete');
 
     Route::resource('patients', PatientController::class);
+});
+
+// Notifications
+Route::middleware('auth')->prefix('notifications')->name('notifications.')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('index');
+    Route::post('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('mark-all-read');
+    Route::get('/{id}/read', [NotificationController::class, 'markRead'])->name('read');
+});
+
+// Cases — doctors and admins only
+Route::middleware(['auth', 'role:doctor,admin'])->group(function () {
+    Route::resource('cases', CaseController::class);
 });

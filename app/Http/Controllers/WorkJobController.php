@@ -79,9 +79,9 @@ class WorkJobController extends Controller
     {
         $this->authorizeView($workJob);
 
-        $workJob->load(['doctor', 'technician', 'attachments.uploader']);
-        $statuses       = WorkJobStatus::cases();
+        $workJob->load(['doctor', 'technician', 'attachments.uploader', 'statusHistory.changedBy']);
         $user           = auth()->user();
+        $statuses       = $this->workJobService->allowedTransitionsForUser($user, $workJob);
         $canReview      = $this->reviewService->canReview($user, $workJob);
         $existingReview = $this->reviewService->existingReview($user, $workJob);
         $reviews        = $this->reviewService->reviewsForJob($workJob);
@@ -97,8 +97,9 @@ class WorkJobController extends Controller
         $this->authorizeEdit($workJob);
 
         $workJob->load(['doctor', 'technician']);
+        $user        = auth()->user();
         $technicians = $this->workJobService->getTechnicians();
-        $statuses    = WorkJobStatus::cases();
+        $statuses    = $this->workJobService->allowedTransitionsForUser($user, $workJob);
 
         return view('work-jobs.edit', compact('workJob', 'technicians', 'statuses'));
     }
@@ -120,9 +121,26 @@ class WorkJobController extends Controller
 
         $data = $request->validated();
 
-        if ($user->isTechnician()) {
-            $this->workJobService->updateStatus($workJob, WorkJobStatus::from($data['status']));
-        } else {
+        if (isset($data['status'])) {
+            $newStatus = WorkJobStatus::from($data['status']);
+
+            if (! $this->workJobService->canTransition($user, $workJob, $newStatus)) {
+                abort(403, 'You are not allowed to make this status transition.');
+            }
+
+            $this->workJobService->updateStatus($workJob, $newStatus, $user, $request->input('status_notes'));
+
+            // If the only field being changed is status (technician path), redirect now
+            if ($user->isTechnician()) {
+                return redirect()
+                    ->route('work-jobs.show', $workJob)
+                    ->with('success', 'Status updated successfully.');
+            }
+
+            unset($data['status']);
+        }
+
+        if (! empty($data)) {
             $this->workJobService->update($workJob, $data);
         }
 

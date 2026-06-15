@@ -21,7 +21,7 @@ class ReviewService
      */
     public function canReview(User $reviewer, WorkJob $workJob): bool
     {
-        if (! in_array($workJob->status, [WorkJobStatus::Done, WorkJobStatus::Cancelled], true)) {
+        if (! in_array($workJob->status, [WorkJobStatus::Delivered, WorkJobStatus::Cancelled], true)) {
             return false;
         }
 

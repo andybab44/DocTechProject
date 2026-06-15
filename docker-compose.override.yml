@@ -25,3 +25,5 @@ services:
       - ./lang:/var/www/html/lang
       # Named volume for storage (persisted)
       - storage_data:/var/www/html/storage
+      # Dev OPcache config — validate timestamps so Blade changes take effect immediately
+      - ./docker/zzz-dev-opcache.ini:/usr/local/etc/php/conf.d/zzz-dev-opcache.ini:ro

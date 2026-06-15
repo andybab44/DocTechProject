@@ -323,7 +323,7 @@ class WorkJobTest extends TestCase
         $job    = WorkJob::factory()->create([
             'doctor_id'    => $doctor->id,
             'technician_id' => $tech->id,
-            'status'       => WorkJobStatus::Pending,
+            'status'       => WorkJobStatus::AwaitingAcceptance,
         ]);
 
         $this->actingAs($tech)

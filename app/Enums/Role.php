@@ -10,10 +10,6 @@ enum Role: string
 
     public function label(): string
     {
-        return match($this) {
-            Role::Admin      => 'Admin',
-            Role::Doctor     => 'Doctor',
-            Role::Technician => 'Technician',
-        };
+        return __('app.roles.' . $this->value);
     }
 }
