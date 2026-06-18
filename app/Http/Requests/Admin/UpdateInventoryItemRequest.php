@@ -19,6 +19,7 @@ class UpdateInventoryItemRequest extends FormRequest
             'unit'                => ['required', 'string', 'max:50'],
             'category'            => ['nullable', 'string', 'max:100'],
             'low_stock_threshold' => ['required', 'integer', 'min:0'],
+            'vendor_id'           => ['nullable', 'integer', 'exists:vendors,id'],
         ];
     }
 }

@@ -9,11 +9,18 @@
         <p class="text-stone-500 mt-1">{{ __('app.inventory.subtitle') }}</p>
     </div>
     @if(auth()->user()->isAdmin())
-    <a href="{{ route('admin.inventory.create') }}"
-       class="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white
-              text-sm font-medium rounded-md px-4 py-2 transition">
-        {{ __('app.inventory.add_item') }}
-    </a>
+    <div class="flex gap-3">
+        <a href="{{ route('inventory.reorder') }}"
+           class="inline-flex items-center gap-2 bg-white border border-stone-300 hover:bg-stone-50 text-stone-700
+                  text-sm font-medium rounded-md px-4 py-2 transition">
+            {{ __('app.reorder.btn_reorder') }}
+        </a>
+        <a href="{{ route('admin.inventory.create') }}"
+           class="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white
+                  text-sm font-medium rounded-md px-4 py-2 transition">
+            {{ __('app.inventory.add_item') }}
+        </a>
+    </div>
     @endif
 </div>
 

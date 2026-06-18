@@ -9,6 +9,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- **Vendor management & reorder emails** — manage material vendors and send PO-style reorder emails
+  - `vendors` table: `name`, `email`, `phone` (nullable), `notes` (nullable)
+  - `vendor_id` nullable FK added to `inventory_items`, nullified on vendor delete
+  - `Vendor` model with `items(): HasMany`; `InventoryItem` updated with `vendor(): BelongsTo`
+  - `VendorService` — `paginate`, `create`, `update`, `delete`
+  - `Admin\VendorController` — full resource CRUD (admin-only, no module gate)
+  - Vendor views: `admin/vendors/index`, `create`, `edit` — paginated list with item count, full create/edit forms
+  - Vendor dropdown added to inventory item create and edit forms
+  - Vendor info card added to inventory item show page
+  - "Vendors" nav link added for admins
+  - `ReorderRequestMail` Mailable (queued) — PO reference `RO-YYYYMMDD-XXXX`, vendor details, item table (name, category, current stock, requested qty, unit)
+  - `resources/views/mail/reorder-request.blade.php` — HTML PO-style email
+  - `Admin\ReorderController` — `index()` groups items by vendor, pre-selects low-stock; `send()` dispatches one `ReorderRequestMail` per vendor group, skips items with no vendor
+  - `SendReorderRequest` — validates items array (each needs `inventory_item_id` + `quantity ≥ 1`)
+  - `GET /inventory/reorder` + `POST /inventory/reorder` routes under `module:inventory` (all roles with module)
+  - `inventory/reorder.blade.php` — grouped by vendor, low-stock pre-checked, editable qty, JS checkbox toggling, warning section for unassigned items
+  - "Send Reorder" button added to inventory index page
+  - Translation strings added: `nav.vendors`, `inventory.field_vendor`, `vendors.*`, `reorder.*` in `lang/en/app.php` and `lang/ro/app.php`
+  - `VendorFactory` for tests
+  - 11 feature tests: `VendorTest` (CRUD, auth guards, cascade nullify), `ReorderTest` (access control, `Mail::fake()` assertions, per-vendor grouping, no-vendor skip, validation)
+
 - **Analytics module** — platform-wide analytics gated by the `module:analytics` license
   - `Analytics` case added to the `Module` enum
   - `AnalyticsService` — all aggregation logic: work job totals by status, jobs by doctor/technician, appointment stats, patient count, inventory summary, user breakdown by role; scoped helpers for doctor and technician dashboards

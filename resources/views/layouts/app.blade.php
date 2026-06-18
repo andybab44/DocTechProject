@@ -40,6 +40,10 @@
                    class="text-sm transition {{ request()->routeIs('admin.licenses.*') ? 'text-teal-700 font-semibold' : 'text-stone-500 hover:text-teal-700' }}">
                     {{ __('app.nav.licenses') }}
                 </a>
+                <a href="{{ route('admin.vendors.index') }}"
+                   class="text-sm transition {{ request()->routeIs('admin.vendors.*') ? 'text-teal-700 font-semibold' : 'text-stone-500 hover:text-teal-700' }}">
+                    {{ __('app.nav.vendors') }}
+                </a>
                 @endif
                 @php $license = auth()->user()->license; @endphp
                 @if($license && $license->isValid() && $license->hasModule(\App\Enums\Module::Inventory))

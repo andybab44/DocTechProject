@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\ReorderController;
+use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\CaseController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\LoginController;
@@ -61,6 +63,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::middleware('module:analytics')->group(function () {
         Route::get('analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
     });
+
+    // Vendors — admin only, no module gate
+    Route::resource('vendors', VendorController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+});
+
+// Inventory reorder — module:inventory (all roles with module)
+Route::middleware(['auth', 'module:inventory'])->group(function () {
+    Route::get('/inventory/reorder', [ReorderController::class, 'index'])->name('inventory.reorder');
+    Route::post('/inventory/reorder', [ReorderController::class, 'send'])->name('inventory.reorder.send');
 });
 
 // Inventory — gated by module:inventory license

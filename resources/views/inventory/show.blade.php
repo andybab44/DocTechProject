@@ -60,6 +60,15 @@
         <p class="text-xs font-medium text-stone-400 uppercase tracking-wide">{{ __('app.inventory.total_usages') }}</p>
         <p class="mt-1 text-3xl font-bold text-stone-800">{{ $usages->total() }}</p>
     </div>
+    <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-5">
+        <p class="text-xs font-medium text-stone-400 uppercase tracking-wide">{{ __('app.inventory.vendor') }}</p>
+        @if ($inventoryItem->vendor)
+            <p class="mt-1 font-semibold text-stone-800">{{ $inventoryItem->vendor->name }}</p>
+            <p class="text-sm text-stone-500">{{ $inventoryItem->vendor->email }}</p>
+        @else
+            <p class="mt-1 text-sm text-stone-400">{{ __('app.inventory.no_vendor') }}</p>
+        @endif
+    </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

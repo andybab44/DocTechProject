@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\InventoryItemFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class InventoryItem extends Model
@@ -19,6 +20,7 @@ class InventoryItem extends Model
         'unit',
         'category',
         'low_stock_threshold',
+        'vendor_id',
     ];
 
     protected function casts(): array
@@ -32,6 +34,11 @@ class InventoryItem extends Model
     public function usages(): HasMany
     {
         return $this->hasMany(InventoryUsage::class);
+    }
+
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
     }
 
     public function isLowStock(): bool

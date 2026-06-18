@@ -42,6 +42,7 @@
         <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 col-span-1">
             <p class="text-xs text-stone-500 uppercase tracking-wider font-medium mb-1">{{ __('app.analytics.total_jobs') }}</p>
             <p class="text-4xl font-bold text-stone-800 mb-4">{{ $workJobStats['total'] }}</p>
+            @php $total = max($workJobStats['total'], 1); @endphp
             @include('partials.work-job-status-bars', ['gridClass' => 'grid-cols-1'])
         </div>
 

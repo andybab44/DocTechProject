@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\RestockInventoryItemRequest;
 use App\Http\Requests\Admin\StoreInventoryItemRequest;
 use App\Http\Requests\Admin\UpdateInventoryItemRequest;
 use App\Models\InventoryItem;
+use App\Models\Vendor;
 use App\Services\InventoryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -17,7 +18,9 @@ class InventoryItemController extends Controller
 
     public function create(): View
     {
-        return view('admin.inventory.create');
+        $vendors = Vendor::orderBy('name')->get();
+
+        return view('admin.inventory.create', compact('vendors'));
     }
 
     public function store(StoreInventoryItemRequest $request): RedirectResponse
@@ -31,7 +34,9 @@ class InventoryItemController extends Controller
 
     public function edit(InventoryItem $inventoryItem): View
     {
-        return view('admin.inventory.edit', compact('inventoryItem'));
+        $vendors = Vendor::orderBy('name')->get();
+
+        return view('admin.inventory.edit', compact('inventoryItem', 'vendors'));
     }
 
     public function update(UpdateInventoryItemRequest $request, InventoryItem $inventoryItem): RedirectResponse

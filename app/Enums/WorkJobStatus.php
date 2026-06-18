@@ -39,5 +39,6 @@ enum WorkJobStatus: string
             self::ReadyForDelivery   => 'bg-teal-400',
             self::Delivered          => 'bg-green-500',
             self::Cancelled          => 'bg-red-400',
-        ];
-    }}
+        };
+    }
+}

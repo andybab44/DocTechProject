@@ -21,6 +21,7 @@ class InventoryItemController extends Controller
 
     public function show(InventoryItem $inventoryItem): View
     {
+        $inventoryItem->load('vendor');
         $usages   = $this->inventoryService->usageForItem($inventoryItem);
         $workJobs = auth()->user()->isAdmin()
             ? \App\Models\WorkJob::orderBy('scheduled_at', 'desc')->get()

@@ -8,6 +8,7 @@ return [
         'users'        => 'Utilizatori',
         'licenses'     => 'Licențe',
         'inventory'    => 'Inventar',
+        'vendors'      => 'Furnizori',
         'appointments' => 'Programări',
         'reviews'      => 'Recenzii',
         'analytics'    => 'Analiză',
@@ -297,9 +298,57 @@ return [
         'success_deleted'    => 'Articol de inventar şters.',
         'success_usage_logged' => 'Utilizare înregistrată cu succes.',
         'error_insufficient_stock' => 'Stoc insuficient pentru cantitatea solicitată.',
+        'field_vendor'       => 'Furnizor',
+        'select_vendor'      => '— Fără furnizor —',
+        'vendor'             => 'Furnizor',
+        'no_vendor'          => 'Niciun furnizor atribuit',
     ],
 
-    // Common
+    // Vendors
+    'vendors' => [
+        'title'          => 'Furnizori',
+        'subtitle'       => 'Gestionați furnizorii de materiale.',
+        'add_vendor'     => '+ Adaugă furnizor',
+        'create_title'   => 'Furnizor nou',
+        'edit_title'     => 'Editare furnizor',
+
+        'col_name'   => 'Nume',
+        'col_email'  => 'Email',
+        'col_phone'  => 'Telefon',
+        'col_items'  => 'Articole',
+
+        'field_name'  => 'Nume companie',
+        'field_email' => 'Adresă de email',
+        'field_phone' => 'Telefon',
+        'field_notes' => 'Note',
+
+        'btn_create' => 'Creează furnizor',
+        'btn_save'   => 'Salvează modificările',
+        'btn_edit'   => 'Editează',
+        'btn_delete' => 'Șterge',
+        'btn_cancel' => 'Anulează',
+
+        'no_vendors'      => 'Niciun furnizor găsit.',
+        'delete_confirm'  => 'Ștergeți acest furnizor? Articolele din inventar legate vor fi debifate.',
+        'success_created' => 'Furnizor creat.',
+        'success_updated' => 'Furnizor actualizat.',
+        'success_deleted' => 'Furnizor șters.',
+    ],
+
+    // Reorder
+    'reorder' => [
+        'title'              => 'Trimite cereri de reaprovizionare',
+        'subtitle'           => 'Selectați articolele și trimiteți un email de comandă fiecărui furnizor.',
+        'col_request_qty'    => 'Cantitate solicitată',
+        'btn_send'           => 'Trimite email-uri de reaprovizionare',
+        'btn_cancel'         => 'Anulează',
+        'btn_reorder'        => 'Trimite reaprovizionare',
+        'no_vendor_assigned' => 'Niciun articol din inventar nu are un furnizor atribuit.',
+        'no_vendor_warning'  => 'Următoarele articole nu au furnizor și nu vor fi incluse:',
+        'no_vendor_hint'     => 'Atribuiți un furnizor acestor articole din pagina de editare a inventarului.',
+        'no_vendor_items'    => 'Niciunul dintre articolele selectate nu are furnizor. Nu s-au trimis email-uri.',
+        'sent'               => 'Email-uri de reaprovizionare trimise către :count furnizor(i).',
+    ],
     'cancel' => 'Anulează',
     'common' => [
         'back'   => '← Înapoi',

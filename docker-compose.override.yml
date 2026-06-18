@@ -13,6 +13,11 @@ services:
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      MAIL_FROM_ADDRESS: "noreply@dentaflow.local"
+      MAIL_FROM_NAME: "DentaFlow"
     volumes:
       # Bind-mount only the source code directories we actually change
       - ./app:/var/www/html/app
@@ -27,3 +32,11 @@ services:
       - storage_data:/var/www/html/storage
       # Dev OPcache config — validate timestamps so Blade changes take effect immediately
       - ./docker/zzz-dev-opcache.ini:/usr/local/etc/php/conf.d/zzz-dev-opcache.ini:ro
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: doctechproject_mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"   # web UI  →  http://localhost:8025
+      - "1025:1025"   # SMTP

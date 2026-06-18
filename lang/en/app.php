@@ -8,6 +8,7 @@ return [
         'users'        => 'Users',
         'licenses'     => 'Licenses',
         'inventory'    => 'Inventory',
+        'vendors'      => 'Vendors',
         'appointments' => 'Appointments',
         'reviews'      => 'Reviews',
         'analytics'    => 'Analytics',
@@ -297,9 +298,57 @@ return [
         'success_deleted'    => 'Inventory item deleted.',
         'success_usage_logged' => 'Usage logged successfully.',
         'error_insufficient_stock' => 'Insufficient stock for the requested quantity.',
+        'field_vendor'       => 'Vendor',
+        'select_vendor'      => '— No vendor —',
+        'vendor'             => 'Vendor',
+        'no_vendor'          => 'No vendor assigned',
     ],
 
-    // Common
+    // Vendors
+    'vendors' => [
+        'title'          => 'Vendors',
+        'subtitle'       => 'Manage your material and supply vendors.',
+        'add_vendor'     => '+ Add Vendor',
+        'create_title'   => 'New Vendor',
+        'edit_title'     => 'Edit Vendor',
+
+        'col_name'   => 'Name',
+        'col_email'  => 'Email',
+        'col_phone'  => 'Phone',
+        'col_items'  => 'Items',
+
+        'field_name'  => 'Company Name',
+        'field_email' => 'Email Address',
+        'field_phone' => 'Phone',
+        'field_notes' => 'Notes',
+
+        'btn_create' => 'Create Vendor',
+        'btn_save'   => 'Save Changes',
+        'btn_edit'   => 'Edit',
+        'btn_delete' => 'Delete',
+        'btn_cancel' => 'Cancel',
+
+        'no_vendors'      => 'No vendors found.',
+        'delete_confirm'  => 'Delete this vendor? Linked inventory items will have their vendor cleared.',
+        'success_created' => 'Vendor created.',
+        'success_updated' => 'Vendor updated.',
+        'success_deleted' => 'Vendor deleted.',
+    ],
+
+    // Reorder
+    'reorder' => [
+        'title'              => 'Send Reorder Requests',
+        'subtitle'           => 'Select items to reorder and send a purchase order email to each vendor.',
+        'col_request_qty'    => 'Requested Qty',
+        'btn_send'           => 'Send Reorder Emails',
+        'btn_cancel'         => 'Cancel',
+        'btn_reorder'        => 'Send Reorder',
+        'no_vendor_assigned' => 'No inventory items have a vendor assigned yet.',
+        'no_vendor_warning'  => 'The following items have no vendor and will not be included:',
+        'no_vendor_hint'     => 'Assign a vendor to these items via the inventory edit page.',
+        'no_vendor_items'    => 'None of the selected items have a vendor assigned. No emails were sent.',
+        'sent'               => 'Reorder emails sent to :count vendor(s).',
+    ],
     'cancel' => 'Cancel',
     'common' => [
         'back'   => '← Back',

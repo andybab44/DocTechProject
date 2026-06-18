@@ -54,6 +54,21 @@
             @error('low_stock_threshold')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
 
+        <div>
+            <label class="block text-sm font-medium text-stone-700 mb-1">{{ __('app.inventory.field_vendor') }}</label>
+            <select name="vendor_id"
+                    class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400
+                           @error('vendor_id') border-red-400 @enderror">
+                <option value="">{{ __('app.inventory.select_vendor') }}</option>
+                @foreach ($vendors as $vendor)
+                    <option value="{{ $vendor->id }}" @selected(old('vendor_id', $inventoryItem->vendor_id) == $vendor->id)>
+                        {{ $vendor->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('vendor_id')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+        </div>
+
         <div class="flex gap-3 pt-2">
             <button type="submit"
                     class="bg-teal-700 hover:bg-teal-800 text-white text-sm font-medium rounded-md px-5 py-2 transition">
