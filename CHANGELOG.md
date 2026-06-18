@@ -9,6 +9,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- **Analytics module** — platform-wide analytics gated by the `module:analytics` license
+  - `Analytics` case added to the `Module` enum
+  - `AnalyticsService` — all aggregation logic: work job totals by status, jobs by doctor/technician, appointment stats, patient count, inventory summary, user breakdown by role; scoped helpers for doctor and technician dashboards
+  - `Admin\AnalyticsController` — admin-only, `module:analytics` gated; passes full stats to view; conditionally includes appointment/inventory data based on active modules
+  - `GET /admin/analytics` route, named `admin.analytics.index`, inside the admin + `module:analytics` middleware group
+  - `admin/analytics/index` Blade view — stat cards, CSS progress-bar breakdowns for work job statuses, top-5 doctors and technicians by volume, appointment and inventory sections (shown when respective modules are licensed)
+  - "Analytics" nav link in the app layout, shown only to admins with a valid `module:analytics` license
+  - Dashboard enrichment (no extra module required):
+    - **Admin dashboard** — quick-stat cards (total users, total/active work jobs, patients) and a work-job-by-status breakdown
+    - **Doctor dashboard** — personal work job counts by status, next upcoming appointment card
+    - **Technician dashboard** — assigned jobs count, in-progress/in-review counts, jobs delivered this month
+  - `DashboardController` updated to inject `AnalyticsService` and pass stats to all three dashboard views
+  - Translation strings added to `lang/en/app.php` and `lang/ro/app.php`: `nav.analytics`, `analytics.*`, new `dashboard.*` stat labels
+
+- **Tests** — 9 new feature tests in `AnalyticsTest`: guest redirect, admin without license 403, expired/inactive license 403, role guards (doctor/technician forbidden), happy-path view render, view data assertions, stat reflection, null data when optional modules absent, data presence when all modules licensed
+
 - **Work Job Status Expansion** — richer status lifecycle for the doctor-technician workflow
   - `WorkJobStatus` enum expanded from 4 to 7 values: `awaiting_acceptance`, `in_progress`, `in_review`, `needs_revision`, `ready_for_delivery`, `delivered`, `cancelled`
   - Role-gated transitions enforced in `WorkJobService::canTransition()` and `WorkJobService::allowedTransitionsForUser()`: technicians accept → submit → rework; doctors approve/reject → confirm delivery; admins unrestricted

@@ -10,6 +10,7 @@ return [
         'inventory'    => 'Inventory',
         'appointments' => 'Appointments',
         'reviews'      => 'Reviews',
+        'analytics'    => 'Analytics',
         'logout'       => 'Logout',
     ],
 
@@ -39,11 +40,45 @@ return [
         'clinical'    => 'Clinical',
         'technical'   => 'Technical',
 
-        'manage_users'       => 'Manage Users',
-        'manage_users_desc'  => 'Add, view and manage user accounts',
-        'view_calendar'      => '📅 View Calendar',
-        'view_my_calendar'   => '📅 View My Jobs Calendar',
-        'new_work_job'       => '+ New Work Job',
+        'manage_users'        => 'Manage Users',
+        'manage_users_desc'   => 'Add, view and manage user accounts',
+        'view_calendar'       => '📅 View Calendar',
+        'view_calendar_desc'  => 'See all upcoming work jobs',
+        'view_my_calendar'    => '📅 View My Jobs Calendar',
+        'new_work_job'        => '+ New Work Job',
+
+        // Admin quick-stats
+        'total_users'         => 'Total Users',
+        'total_jobs'          => 'Total Work Jobs',
+        'active_jobs'         => 'Active Jobs',
+        'total_patients'      => 'Patients',
+        'jobs_by_status'      => 'Jobs by Status',
+
+        // Doctor / technician stats
+        'my_total_jobs'       => 'My Work Jobs',
+        'my_assigned_jobs'    => 'Assigned to Me',
+        'my_jobs_breakdown'   => 'My Jobs Breakdown',
+        'next_appointment'    => 'Next Appointment',
+        'delivered_this_month'=> 'Delivered This Month',
+    ],
+
+    // Analytics (full admin page)
+    'analytics' => [
+        'title'              => 'Analytics',
+        'subtitle'           => 'Overview of platform activity and usage.',
+        'users'              => 'Users',
+        'total_users'        => 'Total Users',
+        'work_jobs'          => 'Work Jobs',
+        'total_jobs'         => 'Total Jobs',
+        'jobs_by_doctor'     => 'Jobs by Doctor (top 5)',
+        'jobs_by_technician' => 'Jobs by Technician (top 5)',
+        'appointments'       => 'Appointments',
+        'total_appointments' => 'Total Appointments',
+        'total_patients'     => 'Patients',
+        'inventory'          => 'Inventory',
+        'total_items'        => 'Total Items',
+        'low_stock'          => 'Low Stock',
+        'no_data'            => 'No data yet.',
     ],
 
     // Work Jobs – Calendar

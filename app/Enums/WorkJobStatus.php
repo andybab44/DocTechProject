@@ -29,4 +29,15 @@ enum WorkJobStatus: string
             self::Cancelled          => 'red',
         };
     }
-}
+    public function barColour(): string
+    {
+        return match($this) {
+            self::AwaitingAcceptance => 'bg-yellow-400',
+            self::InProgress         => 'bg-blue-500',
+            self::InReview           => 'bg-purple-500',
+            self::NeedsRevision      => 'bg-orange-400',
+            self::ReadyForDelivery   => 'bg-teal-400',
+            self::Delivered          => 'bg-green-500',
+            self::Cancelled          => 'bg-red-400',
+        ];
+    }}

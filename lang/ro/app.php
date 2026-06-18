@@ -10,6 +10,7 @@ return [
         'inventory'    => 'Inventar',
         'appointments' => 'Programări',
         'reviews'      => 'Recenzii',
+        'analytics'    => 'Analiză',
         'logout'       => 'Deconectare',
     ],
 
@@ -39,11 +40,45 @@ return [
         'clinical'    => 'Clinic',
         'technical'   => 'Tehnic',
 
-        'manage_users'       => 'Gestionare utilizatori',
-        'manage_users_desc'  => 'Adăugați, vizualizați și gestionați conturile de utilizatori',
-        'view_calendar'      => '📅 Vezi calendarul',
-        'view_my_calendar'   => '📅 Vezi calendarul lucrărilor mele',
-        'new_work_job'       => '+ Lucrare nouă',
+        'manage_users'        => 'Gestionare utilizatori',
+        'manage_users_desc'   => 'Adăugați, vizualizați și gestionați conturile de utilizatori',
+        'view_calendar'       => '📅 Vezi calendarul',
+        'view_calendar_desc'  => 'Vizualizați toate lucrările viitoare',
+        'view_my_calendar'    => '📅 Vezi calendarul lucrărilor mele',
+        'new_work_job'        => '+ Lucrare nouă',
+
+        // Admin quick-stats
+        'total_users'         => 'Total utilizatori',
+        'total_jobs'          => 'Total lucrări',
+        'active_jobs'         => 'Lucrări active',
+        'total_patients'      => 'Pacienți',
+        'jobs_by_status'      => 'Lucrări după status',
+
+        // Doctor / technician stats
+        'my_total_jobs'       => 'Lucrările mele',
+        'my_assigned_jobs'    => 'Atribuite mie',
+        'my_jobs_breakdown'   => 'Defalcarea lucrărilor mele',
+        'next_appointment'    => 'Următoarea programare',
+        'delivered_this_month'=> 'Livrate luna aceasta',
+    ],
+
+    // Analytics (full admin page)
+    'analytics' => [
+        'title'              => 'Analiză',
+        'subtitle'           => 'Prezentare generală a activității platformei.',
+        'users'              => 'Utilizatori',
+        'total_users'        => 'Total utilizatori',
+        'work_jobs'          => 'Lucrări',
+        'total_jobs'         => 'Total lucrări',
+        'jobs_by_doctor'     => 'Lucrări pe medic (top 5)',
+        'jobs_by_technician' => 'Lucrări pe tehnician (top 5)',
+        'appointments'       => 'Programări',
+        'total_appointments' => 'Total programări',
+        'total_patients'     => 'Pacienți',
+        'inventory'          => 'Inventar',
+        'total_items'        => 'Total articole',
+        'low_stock'          => 'Stoc redus',
+        'no_data'            => 'Nicio dată disponibilă.',
     ],
 
     // Work Jobs – Calendar

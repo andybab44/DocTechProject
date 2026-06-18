@@ -60,6 +60,12 @@
                     {{ __('app.nav.reviews') }}
                 </a>
                 @endif
+                @if(auth()->user()->isAdmin() && $license && $license->isValid() && $license->hasModule(\App\Enums\Module::Analytics))
+                <a href="{{ route('admin.analytics.index') }}"
+                   class="text-sm transition {{ request()->routeIs('admin.analytics.*') ? 'text-teal-700 font-semibold' : 'text-stone-500 hover:text-teal-700' }}">
+                    {{ __('app.nav.analytics') }}
+                </a>
+                @endif
             </div>
             <div class="flex items-center gap-4">
                 {{-- Language switcher --}}

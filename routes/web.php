@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\CaseController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\LoginController;
@@ -54,6 +55,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::get('reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
         Route::patch('reviews/{review}/toggle', [AdminReviewController::class, 'toggleVisibility'])->name('reviews.toggle');
         Route::delete('reviews/{review}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
+    });
+
+    // Analytics — admin + module:analytics
+    Route::middleware('module:analytics')->group(function () {
+        Route::get('analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
     });
 });
 

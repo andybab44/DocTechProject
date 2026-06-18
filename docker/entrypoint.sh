@@ -36,6 +36,9 @@ php artisan package:discover --ansi 2>/dev/null || true
 # ── Run migrations ─────────────────────────────────────────────────────────
 php artisan migrate --force
 
+# ── Seed database (skips existing records via firstOrCreate) ───────────────
+php artisan db:seed --force
+
 # ── Cache config/routes/views for performance (production only) ────────────
 if [ "${APP_ENV}" = "production" ]; then
     php artisan config:cache

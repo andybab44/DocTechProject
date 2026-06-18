@@ -98,4 +98,30 @@ class DashboardTest extends TestCase
             ->get('/dashboard/doctor')
             ->assertForbidden();
     }
+
+    // --- view data ---
+
+    public function test_admin_dashboard_passes_required_view_data(): void
+    {
+        $this->actingAs(User::factory()->admin()->create())
+            ->get('/dashboard/admin')
+            ->assertOk()
+            ->assertViewHasAll(['quickStats', 'workJobStats']);
+    }
+
+    public function test_doctor_dashboard_passes_required_view_data(): void
+    {
+        $this->actingAs(User::factory()->doctor()->create())
+            ->get('/dashboard/doctor')
+            ->assertOk()
+            ->assertViewHasAll(['workJobStats', 'nextAppointment']);
+    }
+
+    public function test_technician_dashboard_passes_required_view_data(): void
+    {
+        $this->actingAs(User::factory()->technician()->create())
+            ->get('/dashboard/technician')
+            ->assertOk()
+            ->assertViewHas('workJobStats');
+    }
 }

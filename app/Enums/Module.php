@@ -7,6 +7,7 @@ enum Module: string
     case Inventory    = 'inventory';
     case Appointments = 'appointments';
     case Reviews      = 'reviews';
+    case Analytics    = 'analytics';
 
     public function label(): string
     {
@@ -14,6 +15,7 @@ enum Module: string
             Module::Inventory    => 'Inventory Management',
             Module::Appointments => 'Patient Appointments',
             Module::Reviews      => 'Review System',
+            Module::Analytics    => 'Analytics',
         };
     }
 }
